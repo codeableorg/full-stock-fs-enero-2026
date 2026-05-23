@@ -1,0 +1,25 @@
+{
+  "name": "full-stock-enero-fs-2026",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "keywords": [],
+  "author": "Carlos Rodriguez <carlos15erh@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.2.1",
+    "globals": "^17.5.0",
+    "prettier": "^3.8.3"
+  },
+  "dependencies": {
+    "ejs": "^5.0.2",
+    "express": "^5.2.1",
+    "express-ejs-layouts": "^2.5.1"
+  }
+}
