@@ -9,6 +9,11 @@ export async function categoryHandler(req, res) {
 
   const data = JSON.parse(dataJson);
   const category = data.categories.find((category) => category.slug === slug);
+
+  if (!category) {
+    return res.status(404).render("404");
+  }
+
   const products = data.products.filter(
     (product) => product.categoryId === category.id,
   );
