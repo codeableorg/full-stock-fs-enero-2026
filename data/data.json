@@ -1,0 +1,42 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "Polos",
+      "slug": "polos",
+      "imgSrc": "/images/polos.jpg",
+      "alt": "Hombre luciendo polo azul",
+      "description": "Polos exclusivos con diseños que todo desarrollador querrá lucir..."
+    },
+    {
+      "id": 2,
+      "name": "Tazas",
+      "slug": "tazas",
+      "imgSrc": "/images/tazas.jpg",
+      "alt": "Taza de desarrollador",
+      "description": "Tazas exclusivas y entretenidas para desarrolladores"
+    },
+    {
+      "id": 3,
+      "name": "Stickers",
+      "slug": "stickers",
+      "imgSrc": "/images/stickers.jpg",
+      "alt": "Stickers para desarrolladores",
+      "description": "Stickers increíbles para tu laptop"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "Polo React",
+      "imgSrc": "/images/polos/polo-react.png",
+      "price": 2000,
+      "description": "Viste tu pasión por React con estilo...",
+      "categoryId": 1,
+      "features": [
+        "Estampado resistente que mantiene sus colores vibrantes...",
+        "Hecho de algodón suave que asegura comodidad y frescura."
+      ]
+    }
+  ]
+}
