@@ -1,6 +1,7 @@
 import express from "express";
 import expressEjsLayout from "express-ejs-layouts";
 import { categoryHandler } from "./handler/categoryHandler.js";
+import { productHandler } from "./handler/productHandler.js";
 const app = express();
 const PORT = 3000;
 
@@ -13,9 +14,7 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-app.get("/product", (req, res) => {
-  res.render("product");
-});
+app.get("/product/:id", productHandler);
 
 app.get("/category/:slug", categoryHandler);
 
@@ -45,7 +44,6 @@ app.get("/order-confirmation", (req, res) => {
 
 app.use((error, req, res, _) => {
   console.error(error);
-  console.log("hola");
 
   res.render("404");
 });

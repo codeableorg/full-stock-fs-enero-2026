@@ -48,7 +48,7 @@
       <% } %>
       <div class="products__grid">
         <% for (const product of products) { %>
-        <a href="/product" class="product-card">
+        <a href="/product/<%= product.id %>" class="product-card">
           <div class="product-card__container">
             <img src="<%= product.imgSrc %>" alt="<%= product.name %>" />
             <h2 class="product-card__title"><%= product.name %></h2>
