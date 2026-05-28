@@ -37,6 +37,54 @@
         "Estampado resistente que mantiene sus colores vibrantes...",
         "Hecho de algodón suave que asegura comodidad y frescura."
       ]
+    },
+    {
+      "id": 2,
+      "name": "Polo React",
+      "imgSrc": "/images/polos/polo-react.png",
+      "price": 1000,
+      "description": "Viste tu pasión por React con estilo...",
+      "categoryId": 1,
+      "features": [
+        "Estampado resistente que mantiene sus colores vibrantes...",
+        "Hecho de algodón suave que asegura comodidad y frescura."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Polo React",
+      "imgSrc": "/images/polos/polo-react.png",
+      "price": 4000,
+      "description": "Viste tu pasión por React con estilo...",
+      "categoryId": 1,
+      "features": [
+        "Estampado resistente que mantiene sus colores vibrantes...",
+        "Hecho de algodón suave que asegura comodidad y frescura."
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Polo React",
+      "imgSrc": "/images/polos/polo-react.png",
+      "price": 10000,
+      "description": "Viste tu pasión por React con estilo...",
+      "categoryId": 1,
+      "features": [
+        "Estampado resistente que mantiene sus colores vibrantes...",
+        "Hecho de algodón suave que asegura comodidad y frescura."
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Polo React",
+      "imgSrc": "/images/polos/polo-react.png",
+      "price": 7000,
+      "description": "Viste tu pasión por React con estilo...",
+      "categoryId": 1,
+      "features": [
+        "Estampado resistente que mantiene sus colores vibrantes...",
+        "Hecho de algodón suave que asegura comodidad y frescura."
+      ]
     }
   ]
 }
