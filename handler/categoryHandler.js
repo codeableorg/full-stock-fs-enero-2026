@@ -27,5 +27,10 @@ export async function categoryHandler(req, res) {
     return belongsToCategory && meetsMinPrice && meetsMaxPrice;
   });
 
-  res.render("category", { category, products });
+  res.render("category", {
+    category,
+    products,
+    minPrice: minPriceQuery ?? "",
+    maxPrice: maxPriceQuery ?? "",
+  });
 }
