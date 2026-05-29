@@ -11,7 +11,8 @@
       <h1 class="product__title"><%= product.name %></h1>
       <p class="product__price"><%= product.price %></p>
       <p class="product__description"><%= product.description %></p>
-      <form>
+      <form method="post" action="/cart/add-item">
+        <input type="hidden" name="productId" value="<%= product.id %>" />
         <button class="button button--xl product__button" type="submit">
           Agregar al Carrito
         </button>
