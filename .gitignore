@@ -2,7 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,macos,node
 fullstock-static-files
 # persistencia
-messages.json
+data.json
 
 ### macOS ###
 # General
