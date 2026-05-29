@@ -1,3 +1,7 @@
+import path from "node:path";
+import fs from "node:fs/promises";
+export const DATA_PATH = path.join("data", "data.json");
+
 export function parsePriceToCents(value) {
   if (!value) return null;
 
@@ -6,4 +10,17 @@ export function parsePriceToCents(value) {
   if (!isFinite(Number(value))) return null;
 
   return Number(value) * 100;
+}
+
+export async function readDataFile() {
+  try {
+    const dataJson = await fs.readFile(DATA_PATH);
+    const data = JSON.parse(dataJson);
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    // Todo: Enviar un código correcto para evitar el 404 genérico
+    throw new Error(error.message, { cause: error });
+  }
 }

@@ -1,8 +1,4 @@
-import fs from "node:fs/promises";
-import path from "node:path";
-import { parsePriceToCents } from "../utils.js";
-
-const DATA_PATH = path.join("data", "data.json");
+import { parsePriceToCents, readDataFile } from "../utils.js";
 
 export async function categoryHandler(req, res) {
   const { slug } = req.params;
@@ -11,9 +7,7 @@ export async function categoryHandler(req, res) {
   const minPrice = parsePriceToCents(minPriceQuery) ?? -Infinity;
   const maxPrice = parsePriceToCents(maxPriceQuery) ?? Infinity;
 
-  const dataJson = await fs.readFile(DATA_PATH, "utf-8");
-
-  const data = JSON.parse(dataJson);
+  const data = await readDataFile();
   const category = data.categories.find((category) => category.slug === slug);
 
   if (!category) {
