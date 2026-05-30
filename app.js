@@ -5,6 +5,7 @@ import { productHandler } from "./handler/productHandler.js";
 import { cartHandler } from "./handler/cartHandler.js";
 import { countCartItems } from "./middlewares/global.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
+import { notFoundHandler } from "./handler/notFoundHandler.js";
 const app = express();
 const PORT = 3000;
 
@@ -49,6 +50,8 @@ app.get("/checkout", (req, res) => {
 app.get("/order-confirmation", (req, res) => {
   res.render("order-confirmation");
 });
+
+app.use(notFoundHandler);
 
 app.use(errorHandler);
 
