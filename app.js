@@ -3,6 +3,7 @@ import expressEjsLayout from "express-ejs-layouts";
 import { categoryHandler } from "./handler/categoryHandler.js";
 import { productHandler } from "./handler/productHandler.js";
 import { cartHandler } from "./handler/cartHandler.js";
+import { countCartItems } from "./middlewares/global.js";
 const app = express();
 const PORT = 3000;
 
@@ -11,6 +12,8 @@ app.use(express.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
 
 app.use(expressEjsLayout);
+
+app.use(countCartItems);
 
 app.get("/", (req, res) => {
   res.render("index");
