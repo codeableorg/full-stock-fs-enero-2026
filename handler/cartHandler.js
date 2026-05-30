@@ -10,43 +10,53 @@ export const cartHandler = async (req, res) => {
 
   const data = await readDataFile();
 
+  const parsedProductId = Number(productId);
+
   const product = data.products.find(
-    (product) => product.id === Number(productId),
+    (product) => product.id === parsedProductId,
   );
 
   if (!product) {
     return res.status(404).render("404");
   }
 
-  if (data.carts.length === 0) {
-    data.carts = [
-      {
-        id: 1,
-        items: [
-          {
-            productId: product.id,
-            quantity: 1,
-          },
-        ],
-      },
-    ];
-  } else {
-    const cart = data.carts[0];
-    const productIndex = cart.items.findIndex(
-      (item) => item.productId === Number(productId),
-    );
+  const cart = data.carts[0] || { id: 1, items: [] };
 
-    if (productIndex !== -1) {
-      cart.items[productIndex] = {
-        ...cart.items[productIndex],
-        quantity: cart.items[productIndex].quantity + 1,
-      };
-    } else {
-      cart.items.push({ productId: Number(productId), quantity: 1 });
-    }
+  const productItem = cart.items.find(
+    (item) => item.productId === parsedProductId,
+  );
+
+  if (productItem) {
+    productItem.quantity += 1;
+  } else {
+    cart.items.push({ productId: parsedProductId, quantity: 1 });
   }
+
+  data.carts[0] = cart;
 
   await fs.writeFile(DATA_PATH, JSON.stringify(data, null, 2));
 
   res.redirect("/cart");
 };
+
+// function addToCart(cart, parsedProductId) {
+//   const newCart = cart ? { ...cart } : { id: 1, items: [] };
+
+//   const productItem = newCart.items.find(
+//     (item) => item.productId === parsedProductId,
+//   );
+
+//   newCart.items = productItem
+//     ? newCart.items.map((item) => {
+//         if (item.productId === parsedProductId) {
+//           return {
+//             ...item,
+//             quantity: item.quantity + 1,
+//           };
+//         }
+//         return item;
+//       })
+//     : [...newCart.items, { productId: parsedProductId, quantity: 1 }];
+
+//   return newCart;
+// }
