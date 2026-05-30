@@ -1,5 +1,5 @@
 import { AppError } from "../utils/errorUtils.js";
-import { readDataFile } from "../utils.js";
+import { readDataFile } from "../utils/handlerUtils.js";
 
 export async function productHandler(req, res) {
   const { id } = req.params;

@@ -1,4 +1,4 @@
-import { DATA_PATH, readDataFile } from "../utils.js";
+import { DATA_PATH, readDataFile } from "../utils/handlerUtils.js";
 import fs from "node:fs/promises";
 // Función escrita con síntaxis flecha por fines educativos
 // Se debería respetar el formato de escritura de funciones global
