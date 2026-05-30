@@ -4,6 +4,7 @@ import { categoryHandler } from "./handler/categoryHandler.js";
 import { productHandler } from "./handler/productHandler.js";
 import { cartHandler } from "./handler/cartHandler.js";
 import { countCartItems } from "./middlewares/global.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
 const app = express();
 const PORT = 3000;
 
@@ -49,11 +50,7 @@ app.get("/order-confirmation", (req, res) => {
   res.render("order-confirmation");
 });
 
-app.use((error, req, res, _) => {
-  console.error(error);
-
-  res.render("404");
-});
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Servidor encendido y escuchando en el puerto ${PORT}`);

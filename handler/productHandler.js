@@ -1,3 +1,4 @@
+import { AppError } from "../utils/errorUtils.js";
 import { readDataFile } from "../utils.js";
 
 export async function productHandler(req, res) {
@@ -8,7 +9,7 @@ export async function productHandler(req, res) {
   const product = data.products.find((product) => product.id === parseInt(id));
 
   if (!product) {
-    return res.status(404).render("404");
+    throw new AppError("Producto no encontrado", 404);
   }
 
   res.render("product", { product });
