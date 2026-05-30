@@ -1,4 +1,4 @@
-import { readDataFile } from "../utils.js";
+import { readDataFile } from "../utils/handlerUtils.js";
 
 export async function countCartItems(_req, res, next) {
   const db = await readDataFile();
