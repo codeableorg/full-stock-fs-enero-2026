@@ -39,6 +39,30 @@ export const cartHandler = async (req, res) => {
   res.redirect("/cart");
 };
 
+export const getCartHandler = async (req, res) => {
+  const data = await readDataFile();
+
+  const cartItems = data.carts[0]?.items || [];
+
+  // todo: manejar productos que ya no existen en data
+  const cartProducts = cartItems.map((item) => {
+    const product = data.products.find(
+      (product) => product.id === item.productId,
+    );
+    return {
+      ...product,
+      price: Number(product.price) / 100,
+      quantity: item.quantity,
+    };
+  });
+
+  const cartTotal = cartProducts.reduce(
+    (total, product) => total + product.price * product.quantity,
+    0,
+  );
+  res.render("cart", { cart: cartProducts, cartTotal });
+};
+
 // function addToCart(cart, parsedProductId) {
 //   const newCart = cart ? { ...cart } : { id: 1, items: [] };
 

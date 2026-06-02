@@ -2,7 +2,7 @@ import express from "express";
 import expressEjsLayout from "express-ejs-layouts";
 import { categoryHandler } from "./handler/categoryHandler.js";
 import { productHandler } from "./handler/productHandler.js";
-import { cartHandler } from "./handler/cartHandler.js";
+import { cartHandler, getCartHandler } from "./handler/cartHandler.js";
 import { countCartItems } from "./middlewares/global.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { notFoundHandler } from "./handler/notFoundHandler.js";
@@ -29,9 +29,7 @@ app.get("/about", (req, res) => {
   res.render("about");
 });
 
-app.get("/cart", (req, res) => {
-  res.render("cart");
-});
+app.get("/cart", getCartHandler);
 
 app.post("/cart/add-item", cartHandler);
 
