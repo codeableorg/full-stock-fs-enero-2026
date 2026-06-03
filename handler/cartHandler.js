@@ -1,10 +1,11 @@
 import { DATA_PATH, readDataFile } from "../utils/handlerUtils.js";
+import { AppError } from "../utils/errorUtils.js";
 import fs from "node:fs/promises";
 // Función escrita con síntaxis flecha por fines educativos
 // Se debería respetar el formato de escritura de funciones global
 // Ver el resto de handlers.
 
-export const cartHandler = async (req, res) => {
+export const addCartHandler = async (req, res) => {
   const { body } = req;
   const { productId } = body;
 
@@ -62,6 +63,51 @@ export const getCartHandler = async (req, res) => {
   );
   res.render("cart", { cart: cartProducts, cartTotal });
 };
+
+export async function editCartHandler(req, res) {
+  const { id } = req.params;
+  const { action } = req.body;
+
+  const productId = Number(id);
+
+  if (!Number.isInteger(productId)) {
+    throw new AppError("Producto inválido", 400);
+  }
+
+  if (action !== "increase" && action !== "decrease") {
+    throw new AppError("Acción inválida", 400);
+  }
+
+  const data = await readDataFile();
+
+  const cartItems = data.carts[0]?.items;
+
+  if (!cartItems) {
+    return res.redirect("/cart");
+  }
+
+  const productIndex = cartItems.findIndex(
+    (item) => item.productId === productId,
+  );
+
+  if (productIndex === -1) {
+    return res.redirect("/cart");
+  }
+
+  const quantityChange = action === "increase" ? 1 : -1;
+  const cartItem = cartItems[productIndex];
+  const nextQuantity = cartItem.quantity + quantityChange;
+
+  if (nextQuantity <= 0) {
+    cartItems.splice(productIndex, 1);
+  } else {
+    cartItem.quantity = nextQuantity;
+  }
+
+  await fs.writeFile(DATA_PATH, JSON.stringify(data, null, 2));
+
+  res.redirect("/cart");
+}
 
 // function addToCart(cart, parsedProductId) {
 //   const newCart = cart ? { ...cart } : { id: 1, items: [] };

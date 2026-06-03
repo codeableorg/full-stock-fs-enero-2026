@@ -26,8 +26,10 @@
           <div class="cart__item-footer">
             <p class="cart__item-price">S/ <%= item.price %></p>
             <div class="cart__item-quantity">
-              <form>
+              <form method="post" action="/cart/update-item/<%= item.id %>">
+                <input type="hidden" name="action" value="decrease" />
                 <button
+                  type="submit"
                   class="button button--sm-icon button--outline"
                   aria-label="Reducir cantidad"
                 >
@@ -37,8 +39,10 @@
               <span class="cart__item-quantity-display"
                 ><%= item.quantity %></span
               >
-              <form>
+              <form method="post" action="/cart/update-item/<%= item.id %>">
+                <input type="hidden" name="action" value="increase" />
                 <button
+                  type="submit"
                   class="button button--sm-icon button--outline"
                   aria-label="Aumentar cantidad"
                 >
