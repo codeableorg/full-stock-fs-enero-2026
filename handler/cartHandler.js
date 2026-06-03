@@ -70,10 +70,6 @@ export async function editCartHandler(req, res) {
 
   const productId = Number(id);
 
-  if (!Number.isInteger(productId)) {
-    throw new AppError("Producto inválido", 400);
-  }
-
   if (action !== "increase" && action !== "decrease") {
     throw new AppError("Acción inválida", 400);
   }
@@ -103,6 +99,26 @@ export async function editCartHandler(req, res) {
   } else {
     cartItem.quantity = nextQuantity;
   }
+
+  await fs.writeFile(DATA_PATH, JSON.stringify(data, null, 2));
+
+  res.redirect("/cart");
+}
+
+export async function deleteCartItemHandler(req, res) {
+  const { productId } = req.body;
+  const parsedProductId = Number(productId);
+
+  const data = await readDataFile();
+  const cartItems = data.carts[0]?.items;
+
+  if (!cartItems) {
+    return res.redirect("/cart");
+  }
+
+  data.carts[0].items = cartItems.filter(
+    (item) => item.productId !== parsedProductId,
+  );
 
   await fs.writeFile(DATA_PATH, JSON.stringify(data, null, 2));
 

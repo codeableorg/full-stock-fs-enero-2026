@@ -4,6 +4,7 @@ import { categoryHandler } from "./handler/categoryHandler.js";
 import { productHandler } from "./handler/productHandler.js";
 import {
   addCartHandler,
+  deleteCartItemHandler,
   editCartHandler,
   getCartHandler,
 } from "./handler/cartHandler.js";
@@ -38,6 +39,8 @@ app.get("/cart", getCartHandler);
 app.post("/cart/add-item", addCartHandler);
 
 app.post("/cart/update-item/:id", editCartHandler);
+
+app.post("/cart/delete-item", deleteCartItemHandler);
 
 app.get("/privacy", (req, res) => {
   res.render("privacy");
