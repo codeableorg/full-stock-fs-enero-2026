@@ -2,7 +2,7 @@
   <div class="container cart">
     <h1 class="cart__title">Carrito de compras</h1>
     <div class="cart__container">
-      <% for (let item of cart) { %>
+      <% for (let item of cart.items) { %>
       <div class="cart__item">
         <div class="cart__item-image">
           <img
@@ -30,7 +30,7 @@
             <div class="cart__item-quantity">
               <form
                 method="post"
-                action="<%= item.quantity === 1 ? '/cart/delete-item' : '/cart/update-item/' + item.id %>"
+                action="<%= item.quantity === 1 ? '/cart/delete-item' : '/cart/update-item/' %>"
               >
                 <input type="hidden" name="productId" value="<%= item.id %>" />
                 <input type="hidden" name="action" value="decrease" />
@@ -45,7 +45,8 @@
               <span class="cart__item-quantity-display"
                 ><%= item.quantity %></span
               >
-              <form method="post" action="/cart/update-item/<%= item.id %>">
+              <form method="post" action="/cart/update-item">
+                <input type="hidden" name="productId" value="<%= item.id %>" />
                 <input type="hidden" name="action" value="increase" />
                 <button
                   type="submit"

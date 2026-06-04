@@ -1,16 +1,13 @@
 import express from "express";
 import expressEjsLayout from "express-ejs-layouts";
-import { categoryHandler } from "./handler/categoryHandler.js";
-import { productHandler } from "./handler/productHandler.js";
-import {
-  addCartHandler,
-  deleteCartItemHandler,
-  editCartHandler,
-  getCartHandler,
-} from "./handler/cartHandler.js";
+import * as pagesController from "./controllers/pagesController.js";
+import * as productController from "./controllers/productController.js";
+import * as cartController from "./controllers/cartController.js";
+import * as orderController from "./controllers/orderController.js";
+
 import { countCartItems } from "./middlewares/global.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
-import { notFoundHandler } from "./handler/notFoundHandler.js";
+import { notFoundHandler } from "./controllers/notFoundController.js";
 const app = express();
 const PORT = 3000;
 
@@ -22,41 +19,22 @@ app.use(expressEjsLayout);
 
 app.use(countCartItems);
 
-app.get("/", (req, res) => {
-  res.render("index");
-});
+app.get("/", pagesController.renderHome);
+app.get("/about", pagesController.renderAbout);
+app.get("/terms", pagesController.renderTerms);
+app.get("/privacy", pagesController.renderPrivacy);
 
-app.get("/product/:id", productHandler);
+//todo renombrar o mover controlador
+app.get("/category/:slug", productController.renderCategory);
+app.get("/product/:id", productController.renderProduct);
 
-app.get("/category/:slug", categoryHandler);
+app.get("/cart", cartController.renderCart);
+app.post("/cart/add-item", cartController.addItem);
+app.post("/cart/update-item", cartController.updateItem);
+app.post("/cart/delete-item", cartController.deleteItem);
 
-app.get("/about", (req, res) => {
-  res.render("about");
-});
-
-app.get("/cart", getCartHandler);
-
-app.post("/cart/add-item", addCartHandler);
-
-app.post("/cart/update-item/:id", editCartHandler);
-
-app.post("/cart/delete-item", deleteCartItemHandler);
-
-app.get("/privacy", (req, res) => {
-  res.render("privacy");
-});
-
-app.get("/terms", (req, res) => {
-  res.render("terms");
-});
-
-app.get("/checkout", (req, res) => {
-  res.render("checkout");
-});
-
-app.get("/order-confirmation", (req, res) => {
-  res.render("order-confirmation");
-});
+app.get("/checkout", orderController.renderCheckout);
+app.get("/order-confirmation", orderController.renderOrderConfirmation);
 
 app.use(notFoundHandler);
 

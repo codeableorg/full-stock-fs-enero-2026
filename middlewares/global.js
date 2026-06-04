@@ -1,9 +1,7 @@
-import { readDataFile } from "../utils/handlerUtils.js";
+import * as cartRepository from "../repositories/cartRepository.js";
 
 export async function countCartItems(_req, res, next) {
-  const db = await readDataFile();
-
-  const cart = db.carts[0];
+  const cart = await cartRepository.getCart();
   const cartItemsCount = cart
     ? cart.items.reduce((total, item) => total + item.quantity, 0)
     : 0;
