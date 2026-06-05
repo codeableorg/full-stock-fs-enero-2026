@@ -2,7 +2,7 @@ import { getDb, saveDb } from "../db.js";
 
 export async function getCart() {
   const db = await getDb();
-  return db.carts[0] || {};
+  return db.carts[0] || { id: 1, items: [] };
 }
 
 export async function updateCart(newCart) {

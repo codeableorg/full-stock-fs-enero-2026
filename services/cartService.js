@@ -39,13 +39,14 @@ export async function addItem(productId) {
   }
 
   const cart = await cartRepository.getCart();
-  const items = cart.items || [{ id: 1, items: [] }];
+  const items = cart.items || [];
   const productItem = items.find((item) => item.productId === productId);
 
   if (productItem) {
     productItem.quantity += 1;
   } else {
-    cart.items.push({ productId, quantity: 1 });
+    items.push({ productId, quantity: 1 });
+    cart.items = items;
   }
 
   await cartRepository.updateCart(cart);
@@ -61,13 +62,13 @@ export async function updateItem(productId, action) {
 
   if (items.length === 0) return;
 
-  const itemIndex = items.find((item) => item.productId === productId);
+  const itemIndex = items.findIndex((item) => item.productId === productId);
 
   if (itemIndex === -1) return;
 
   const quantityChange = action === "increase" ? 1 : -1;
   const item = items[itemIndex];
-  items.quantity += quantityChange;
+  item.quantity += quantityChange;
 
   if (item.quantity <= 0) items.splice(itemIndex, 1);
 

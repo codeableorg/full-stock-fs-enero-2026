@@ -2,9 +2,11 @@ import * as cartRepository from "../repositories/cartRepository.js";
 
 export async function countCartItems(_req, res, next) {
   const cart = await cartRepository.getCart();
-  const cartItemsCount = cart
-    ? cart.items.reduce((total, item) => total + item.quantity, 0)
-    : 0;
+  // todo: refinar validación de cart
+  const cartItemsCount =
+    cart.items.length === 0
+      ? cart.items.reduce((total, item) => total + item.quantity, 0)
+      : 0;
 
   // Al guardar el dato en res.locals, estará disponible en TODAS las vistas
   // sin tener que pasarlo manualmente en cada res.render

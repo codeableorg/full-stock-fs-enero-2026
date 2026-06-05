@@ -15,8 +15,7 @@ export const addItem = async (req, res) => {
   const { productId } = body;
 
   await cartService.addItem(Number(productId));
-  res.send("Todo ok");
-  // res.redirect("/cart");
+  res.redirect("/cart");
 };
 
 export async function updateItem(req, res) {
