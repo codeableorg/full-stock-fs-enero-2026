@@ -1,5 +1,6 @@
 import express from "express";
 import expressEjsLayout from "express-ejs-layouts";
+import cookieParser from "cookie-parser";
 import * as pagesController from "./controllers/pagesController.js";
 import * as productController from "./controllers/productController.js";
 import * as cartController from "./controllers/cartController.js";
@@ -10,9 +11,11 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 import { notFoundHandler } from "./controllers/notFoundController.js";
 const app = express();
 const PORT = 3000;
+const COOKIE_SECRET = process.env.COOKIE_SECRET || "full-stock-cookie-secret";
 
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser(COOKIE_SECRET));
 app.set("view engine", "ejs");
 
 app.use(expressEjsLayout);
