@@ -20,6 +20,7 @@
     "prettier-plugin-ejs": "^1.0.3"
   },
   "dependencies": {
+    "cookie-parser": "^1.4.7",
     "ejs": "^5.0.2",
     "express": "^5.2.1",
     "express-ejs-layouts": "^2.5.1"

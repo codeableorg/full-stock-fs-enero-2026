@@ -2,8 +2,41 @@ import * as cartService from "../services/cartService.js";
 // Función escrita con síntaxis flecha por fines educativos
 // Se debería respetar el formato de escritura de funciones global
 // Ver el resto de controllers.
+
+const CART_COOKIE_NAME = "cartId";
+const CART_COOKIE_MAX_AGE = 1000 * 60 * 60 * 24 * 7;
+const CART_COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: true,
+  signed: true,
+  maxAge: CART_COOKIE_MAX_AGE,
+};
+
+function getCartId(req) {
+  const cartId = req.signedCookies[CART_COOKIE_NAME];
+  return typeof cartId === "string" ? cartId : null;
+}
+
+function setCartCookie(res, cartId) {
+  res.cookie(CART_COOKIE_NAME, cartId, CART_COOKIE_OPTIONS);
+}
+
+async function getOrCreateCart(req, res) {
+  const cartId = getCartId(req);
+  const cart = cartId ? await cartService.findCart(cartId) : null;
+
+  if (cart) return cart;
+
+  const newCart = await cartService.createCart();
+  setCartCookie(res, newCart.id);
+
+  return newCart;
+}
+
 export const renderCart = async (req, res) => {
-  const cart = await cartService.getCart();
+  const currentCart = await getOrCreateCart(req, res);
+  const cart = await cartService.getCart(currentCart.id);
 
   const cartTotal = cartService.calculateCartTotal(cart);
 
@@ -14,22 +47,30 @@ export const addItem = async (req, res) => {
   const { body } = req;
   const { productId } = body;
 
-  await cartService.addItem(Number(productId));
+  const cart = await getOrCreateCart(req, res);
+
+  await cartService.addItem(cart.id, Number(productId));
   res.redirect("/cart");
 };
 
 export async function updateItem(req, res) {
   const { productId, action } = req.body;
+  const cartId = getCartId(req);
 
-  await cartService.updateItem(Number(productId), action);
+  if (cartId) {
+    await cartService.updateItem(cartId, Number(productId), action);
+  }
 
   res.redirect("/cart");
 }
 
 export async function deleteItem(req, res) {
   const { productId } = req.body;
+  const cartId = getCartId(req);
 
-  await cartService.deleteItem(Number(productId));
+  if (cartId) {
+    await cartService.deleteItem(cartId, Number(productId));
+  }
 
   res.redirect("/cart");
 }
