@@ -12,5 +12,17 @@ export async function saveDb(db) {
   await fs.writeFile(DATA_PATH, JSON.stringify(db, null, 2));
 }
 
+export async function getNextId(collectionName) {
+  const db = await getDb();
+  const collection = db[collectionName] || [];
+
+  if (collection.length === 0) return 1;
+
+  const ids = collection.map((item) => item.id);
+  const maxId = Math.max(...ids);
+
+  return maxId + 1;
+}
+
 // Revisar todo pues ahora tenemos otra arquitectura
 // Todo: Enviar un código correcto para evitar el 404 genérico
