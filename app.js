@@ -6,17 +6,21 @@ import { countCartItems } from "./middlewares/global.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { notFoundHandler } from "./controllers/notFoundController.js";
 import { router } from "./routes.js";
+import { cartContext } from "./middlewares/cartContext.js";
 const app = express();
 const PORT = 3000;
 const COOKIE_SECRET = process.env.COOKIE_SECRET || "full-stock-cookie-secret";
 
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser(COOKIE_SECRET));
+
 app.set("view engine", "ejs");
 
 app.use(expressEjsLayout);
 
+app.use(cookieParser(COOKIE_SECRET));
+
+app.use(cartContext);
 app.use(countCartItems);
 
 app.use(router);

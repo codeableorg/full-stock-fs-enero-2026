@@ -13,17 +13,12 @@ const CART_COOKIE_OPTIONS = {
   maxAge: CART_COOKIE_MAX_AGE,
 };
 
-function getCartId(req) {
-  const cartId = req.signedCookies[CART_COOKIE_NAME];
-  return typeof cartId === "string" ? cartId : null;
-}
-
 function setCartCookie(res, cartId) {
   res.cookie(CART_COOKIE_NAME, cartId, CART_COOKIE_OPTIONS);
 }
 
 async function getOrCreateCart(req, res) {
-  const cartId = getCartId(req);
+  const cartId = req.cartId;
   const cart = cartId ? await cartService.findCart(cartId) : null;
 
   if (cart) return cart;
@@ -55,7 +50,7 @@ export const addItem = async (req, res) => {
 
 export async function updateItem(req, res) {
   const { productId, action } = req.body;
-  const cartId = getCartId(req);
+  const cartId = req.cartId;
 
   if (cartId) {
     await cartService.updateItem(cartId, Number(productId), action);
@@ -66,7 +61,7 @@ export async function updateItem(req, res) {
 
 export async function deleteItem(req, res) {
   const { productId } = req.body;
-  const cartId = getCartId(req);
+  const cartId = req.cartId;
 
   if (cartId) {
     await cartService.deleteItem(cartId, Number(productId));
