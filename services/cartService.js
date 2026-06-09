@@ -26,18 +26,26 @@ export async function getCart(cartId) {
 
     if (!product) return null;
 
+    const price = Number(product.price) / 100;
+
     return {
       ...product,
-      price: Number(product.price) / 100,
+      productId: item.productId,
+      product,
+      price,
       quantity: item.quantity,
     };
   });
 
   const products = await Promise.all(cartProducts);
-
-  return {
+  const cartWithProducts = {
     ...cart,
     items: products.filter(Boolean),
+  };
+
+  return {
+    ...cartWithProducts,
+    total: calculateCartTotal(cartWithProducts),
   };
 }
 
@@ -126,6 +134,16 @@ export async function deleteItem(cartId, productId) {
   if (items.length === 0) return;
 
   cart.items = items.filter((item) => item.productId !== productId);
+
+  await cartRepository.update(cart);
+}
+
+export async function clearCart(cartId) {
+  const cart = await cartRepository.find(cartId);
+
+  if (!cart) return;
+
+  cart.items = [];
 
   await cartRepository.update(cart);
 }

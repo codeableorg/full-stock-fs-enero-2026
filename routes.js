@@ -21,5 +21,7 @@ router.post("/cart/add-item", cartController.addItem);
 router.post("/cart/update-item", cartController.updateItem);
 router.post("/cart/delete-item", cartController.deleteItem);
 
+// Order & Checkout
 router.get("/checkout", orderController.renderCheckout);
+router.post("/checkout/place-order", orderController.placeOrder);
 router.get("/order-confirmation", orderController.renderOrderConfirmation);
