@@ -7,6 +7,13 @@ export async function renderSignup(req, res) {
 export async function handleSignup(req, res) {
   const { email, password, confirmPassword } = req.body;
 
-  await authService.signup(email, password, confirmPassword);
-  res.redirect("/");
+  try {
+    await authService.signup(email, password, confirmPassword);
+    res.redirect("/");
+  } catch (error) {
+    res.render("signup", {
+      error: error.message,
+      values: { email },
+    });
+  }
 }

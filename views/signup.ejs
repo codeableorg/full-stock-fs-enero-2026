@@ -10,6 +10,7 @@
           type="email"
           required
           autocomplete="email"
+          value="<%= locals.values?.email || '' %>"
         />
       </div>
       <div class="input-field">
@@ -28,7 +29,11 @@
       <button type="submit" class="button button--lg signup__submit">
         Crear cuenta
       </button>
+      <% if (locals.error) { %>
+      <p class="signup__error"><%= locals.error %></p>
+      <% } %>
     </form>
+
     <div class="signup__footer">
       <span class="signup__footer_text"> ¿Ya tienes una cuenta? </span>
       <a href="/login" class="signup__footer_link"> Inicia sesión </a>
