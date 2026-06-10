@@ -4,6 +4,7 @@ import * as pagesController from "./controllers/pagesController.js";
 import * as productController from "./controllers/productController.js";
 import * as cartController from "./controllers/cartController.js";
 import * as orderController from "./controllers/orderController.js";
+import * as authController from "./controllers/authController.js";
 
 export const router = Router();
 
@@ -25,3 +26,7 @@ router.post("/cart/delete-item", cartController.deleteItem);
 router.get("/checkout", orderController.renderCheckout);
 router.post("/checkout/place-order", orderController.placeOrder);
 router.get("/order-confirmation", orderController.renderOrderConfirmation);
+
+// Auth
+router.get("/signup", authController.renderSignup);
+router.post("/signup", authController.handleSignup);

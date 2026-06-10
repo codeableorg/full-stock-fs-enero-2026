@@ -1,0 +1,16 @@
+import { getDb, getNextId, saveDb } from "../db.js";
+
+export async function findByEmail(email) {
+  const db = await getDb();
+  return db.users.find((user) => user.email === email) || null;
+}
+
+export async function create(userData) {
+  const db = await getDb();
+  const nextId = await getNextId("users");
+
+  const newUser = { id: nextId, ...userData };
+  db.users.push(newUser);
+  await saveDb(db);
+  return newUser;
+}
