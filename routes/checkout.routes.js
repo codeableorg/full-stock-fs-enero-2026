@@ -4,5 +4,9 @@ const checkoutRouter = Router();
 
 checkoutRouter.get("/", orderController.renderCheckout);
 checkoutRouter.post("/place-order", orderController.placeOrder);
+checkoutRouter.get(
+  "/order-confirmation",
+  orderController.renderOrderConfirmation,
+);
 
 export default checkoutRouter;
