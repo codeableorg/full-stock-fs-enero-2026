@@ -1,21 +1,16 @@
 import * as cartService from "../services/cartService.js";
+import { setCookie } from "../utils/cookieUtils.js";
 // Función escrita con síntaxis flecha por fines educativos
 // Se debería respetar el formato de escritura de funciones global
 // Ver el resto de controllers.
 
 const CART_COOKIE_NAME = "cartId";
-const CART_COOKIE_MAX_AGE = 1000 * 60 * 60 * 24 * 7;
+
 const CART_COOKIE_OPTIONS = {
-  httpOnly: true,
   secure: process.env.NODE_ENV === "production",
   sameSite: true,
   signed: true,
-  maxAge: CART_COOKIE_MAX_AGE,
 };
-
-function setCartCookie(res, cartId) {
-  res.cookie(CART_COOKIE_NAME, cartId, CART_COOKIE_OPTIONS);
-}
 
 async function getOrCreateCart(req, res) {
   const cartId = req.cartId;
@@ -24,7 +19,7 @@ async function getOrCreateCart(req, res) {
   if (cart) return cart;
 
   const newCart = await cartService.createCart();
-  setCartCookie(res, newCart.id);
+  setCookie(res, CART_COOKIE_NAME, newCart.id, CART_COOKIE_OPTIONS);
 
   return newCart;
 }
