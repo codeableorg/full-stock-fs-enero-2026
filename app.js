@@ -7,6 +7,7 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 import { notFoundHandler } from "./controllers/notFoundController.js";
 import router from "./routes/router.js";
 import { cartContext } from "./middlewares/cartContext.js";
+import { authContext } from "./middlewares/authContext.js";
 const app = express();
 const PORT = 3000;
 const COOKIE_SECRET = process.env.COOKIE_SECRET || "full-stock-cookie-secret";
@@ -20,6 +21,7 @@ app.use(expressEjsLayout);
 
 app.use(cookieParser(COOKIE_SECRET));
 
+app.use(authContext);
 app.use(cartContext);
 app.use(countCartItems);
 

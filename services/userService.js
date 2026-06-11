@@ -7,3 +7,7 @@ export async function getUserByEmail(email) {
 export async function createUser(userData) {
   return await userRepository.create(userData);
 }
+
+export async function getUserById(userId) {
+  return await userRepository.findById(userId);
+}

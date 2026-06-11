@@ -13,5 +13,5 @@ export function setupRouter(router) {
   router.use("/cart", cartRouter);
   router.use("/checkout", checkoutRouter);
   router.get("/order-confirmation", orderController.renderOrderConfirmation);
-  router.use("/signup", authRouter);
+  router.use("/auth", authRouter);
 }

@@ -30,6 +30,7 @@
 @import "3_components/category.css" layer(components);
 @import "3_components/features.css" layer(components);
 @import "3_components/signup.css" layer(components);
+@import "3_components/login.css" layer(components);
 @import "3_components/hero.css" layer(components);
 @import "3_components/category-header.css" layer(components);
 @import "3_components/products.css" layer(components);
