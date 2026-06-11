@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import { countCartItems } from "./middlewares/global.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { notFoundHandler } from "./controllers/notFoundController.js";
-import { router } from "./routes.js";
+import router from "./routes/router.js";
 import { cartContext } from "./middlewares/cartContext.js";
 const app = express();
 const PORT = 3000;
