@@ -2,6 +2,10 @@ import * as authService from "../services/authService.js";
 import { clearCookie, setCookie } from "../utils/cookieUtils.js";
 
 export async function renderSignup(req, res) {
+  if (req.user) {
+    return res.redirect("/");
+  }
+
   res.render("signup");
 }
 
@@ -20,6 +24,10 @@ export async function handleSignup(req, res) {
 }
 
 export async function renderLogin(req, res) {
+  if (req.user) {
+    return res.redirect("/");
+  }
+
   res.render("login");
 }
 
