@@ -40,7 +40,7 @@ export async function handleLogin(req, res) {
 
     // 2. Si todo sale bien, le entregamos su cookie de identidad
     // Aquí idealizamos una función setCookie que crearemos en breve.
-    setCookie(res, "userId", user.id);
+    setCookie(res, "userId", user.id, { signed: true });
 
     // 3. Lo llevamos al Home
     res.redirect("/");

@@ -1,4 +1,5 @@
 import * as userService from "../services/userService.js";
+import { clearCookie } from "../utils/cookieUtils.js";
 
 export async function authContext(req, res, next) {
   // 1. Valores por defecto (asumimos que nadie está logueado al inicio)
@@ -6,7 +7,12 @@ export async function authContext(req, res, next) {
   res.locals.user = null;
 
   // 2. Leemos la cookie. Si no existe, usamos el patrón "Early Return"
-  const userId = req.cookies.userId;
+  const userId = req.signedCookies.userId;
+
+  if (userId === false) {
+    clearCookie(res, "userId");
+  }
+
   if (!userId) {
     return next(); // "No hay cookie de usuario, salimos de este middleware"
   }
@@ -16,7 +22,7 @@ export async function authContext(req, res, next) {
 
   // 4. Si no existe el usuario, limpiamos la cookie y salimos
   if (!user) {
-    res.clearCookie("userId");
+    clearCookie(res, "userId");
     return next();
   }
 
