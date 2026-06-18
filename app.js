@@ -2,7 +2,6 @@ import express from "express";
 import expressEjsLayout from "express-ejs-layouts";
 import cookieParser from "cookie-parser";
 
-import { countCartItems } from "./middlewares/global.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { notFoundHandler } from "./controllers/notFoundController.js";
 import router from "./routes/router.js";
@@ -24,7 +23,6 @@ app.use(cookieParser(COOKIE_SECRET));
 
 app.use(authContext);
 app.use(cartContext);
-app.use(countCartItems);
 
 app.use(router);
 

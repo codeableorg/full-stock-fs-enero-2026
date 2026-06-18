@@ -5,10 +5,15 @@ export function setCookie(res, name, value, options = {}) {
     httpOnly: true,
     maxAge: ONE_WEEK,
     sameSite: "lax",
+    signed: true,
   };
 
   // Combinamos las opciones por defecto con las que decida enviar el usuario.
   res.cookie(name, value, { ...defaultOptions, ...options });
+}
+
+export function getCookie(req, name) {
+  return req.signedCookies[name];
 }
 
 export function clearCookie(res, name) {

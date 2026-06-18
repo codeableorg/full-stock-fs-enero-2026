@@ -25,21 +25,28 @@ async function getOrCreateCart(req, res) {
 }
 
 export const renderCart = async (req, res) => {
-  const currentCart = await getOrCreateCart(req, res);
-  const cart = await cartService.getCart(currentCart.id);
+  // const currentCart = await getOrCreateCart(req, res);
+  // const cart = await cartService.getCart(currentCart.id);
 
-  const cartTotal = cartService.calculateCartTotal(cart);
-
-  res.render("cart", { cart, cartTotal });
+  // const cartTotal = cartService.calculateCartTotal(cart);
+  const cart = req.cart || { items: [], total: 0 };
+  cart.total = cartService.calculateCartTotal(cart);
+  res.render("cart", { cartItems: cart.items, total: cart.total });
 };
 
 export const addItem = async (req, res) => {
   const { body } = req;
   const { productId } = body;
+  const userId = req.user?.id;
 
-  const cart = await getOrCreateCart(req, res);
+  const cart = await cartService.addItem(req.cartId, Number(productId), userId);
 
-  await cartService.addItem(cart.id, Number(productId));
+  if (!req.user && cart.id !== req.cartId) {
+    setCookie(res, "cartId", cart.id);
+  }
+
+  // const cart = await getOrCreateCart(req, res);
+  // await cartService.addItem(cart.id, Number(productId));
   res.redirect("/cart");
 };
 

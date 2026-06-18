@@ -1,4 +1,4 @@
-import { getDb, saveDb } from "../db.js";
+import { getDb, getNextId, saveDb } from "../db.js";
 
 function getCarts(db) {
   if (!Array.isArray(db.carts)) {
@@ -15,14 +15,16 @@ export async function find(cartId) {
   return carts.find((cart) => cart.id === cartId) || null;
 }
 
-export async function create(cart) {
+export async function create(userId) {
   const db = await getDb();
   const carts = getCarts(db);
+  const id = await getNextId("carts");
 
-  carts.push(cart);
+  const newCart = { id, userId, items: [] };
+  carts.push(newCart);
   await saveDb(db);
 
-  return cart;
+  return newCart;
 }
 
 export async function update(updatedCart) {
