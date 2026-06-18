@@ -15,6 +15,23 @@ export async function find(cartId) {
   return carts.find((cart) => cart.id === cartId) || null;
 }
 
+export async function findByUserId(userId) {
+  const db = await getDb();
+  const carts = getCarts(db);
+
+  return carts.find((cart) => cart.userId === userId) || null;
+}
+
+export async function destroy(cartId) {
+  const db = await getDb();
+  const carts = getCarts(db);
+
+  const cartIndex = carts.findIndex((cart) => cart.id === cartId) || null;
+
+  carts.splice(cartIndex, 1);
+  await saveDb(db);
+}
+
 export async function create(userId) {
   const db = await getDb();
   const carts = getCarts(db);

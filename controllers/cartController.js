@@ -44,9 +44,6 @@ export const addItem = async (req, res) => {
   if (!req.user && cart.id !== req.cartId) {
     setCookie(res, "cartId", cart.id);
   }
-
-  // const cart = await getOrCreateCart(req, res);
-  // await cartService.addItem(cart.id, Number(productId));
   res.redirect("/cart");
 };
 

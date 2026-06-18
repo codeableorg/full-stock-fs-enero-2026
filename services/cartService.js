@@ -75,7 +75,7 @@ export async function getOrCreateCart(cartId, userId = null) {
     cart = await cartRepository.create(userId);
   }
 
-  return cart ? await hydrateCart(cart) : null;
+  return cart ?? null;
 }
 
 export async function addItem(cartId, productId, userId) {
@@ -105,6 +105,7 @@ export async function addItem(cartId, productId, userId) {
     cart.items = items;
   }
 
+  cart.total += 1;
   await cartRepository.update(cart);
   return cart;
 }
@@ -136,8 +137,10 @@ export async function updateItem(cartId, productId, action) {
 
   if (nextQuantity <= 0) {
     items.splice(itemIndex, 1);
+    cart.total -= 1;
   } else {
     item.quantity = nextQuantity;
+    cart.total += 1;
   }
 
   await cartRepository.update(cart);
