@@ -41,6 +41,7 @@ async function hydrateCart(cart) {
   return { ...cart, items: enrichedItems, total };
 }
 
+// todo: Revisar si esta logica es totalmente necesario o reduce lineas de codigo
 function toPersistable(cart) {
   return {
     id: cart.id,
