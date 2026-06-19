@@ -41,6 +41,17 @@ async function hydrateCart(cart) {
   return { ...cart, items: enrichedItems, total };
 }
 
+function toPersistable(cart) {
+  return {
+    id: cart.id,
+    userId: cart.userId ?? null,
+    items: (cart.items || []).map(({ productId, quantity }) => ({
+      productId,
+      quantity,
+    })),
+  };
+}
+
 export async function getCart(cartId) {
   const cart = (await cartRepository.find(cartId)) || { id: cartId, items: [] };
   return cart ? hydrateCart(cart) : null;
@@ -105,8 +116,7 @@ export async function addItem(cartId, productId, userId) {
     cart.items = items;
   }
 
-  cart.total += 1;
-  await cartRepository.update(cart);
+  await cartRepository.update(toPersistable(cart));
   return cart;
 }
 
@@ -137,13 +147,11 @@ export async function updateItem(cartId, productId, action) {
 
   if (nextQuantity <= 0) {
     items.splice(itemIndex, 1);
-    cart.total -= 1;
   } else {
     item.quantity = nextQuantity;
-    cart.total += 1;
   }
 
-  await cartRepository.update(cart);
+  await cartRepository.update(toPersistable(cart));
 }
 
 export async function deleteItem(cartId, productId) {
@@ -161,7 +169,7 @@ export async function deleteItem(cartId, productId) {
 
   cart.items = items.filter((item) => item.productId !== productId);
 
-  await cartRepository.update(cart);
+  await cartRepository.update(toPersistable(cart));
 }
 
 export async function mergeCarts(guestCartId, userId) {
@@ -185,7 +193,7 @@ export async function mergeCarts(guestCartId, userId) {
     }
   }
 
-  await cartRepository.update(userCart);
+  await cartRepository.update(toPersistable(userCart));
   // Destruimos el carrito de visitante
   await cartRepository.destroy(guestCartId);
 }
@@ -197,5 +205,5 @@ export async function clearCart(cartId) {
 
   cart.items = [];
 
-  await cartRepository.update(cart);
+  await cartRepository.update(toPersistable(cart));
 }
