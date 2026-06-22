@@ -36,7 +36,7 @@ async function hydrateCart(cart) {
 
   const enrichedItems = cartWithProducts.filter(Boolean);
 
-  const total = calculateCartTotal(cartWithProducts);
+  const total = calculateCartTotal({ items: enrichedItems });
 
   return { ...cart, items: enrichedItems, total };
 }
@@ -55,7 +55,7 @@ function toPersistable(cart) {
 
 export async function getCart(cartId) {
   const cart = (await cartRepository.find(cartId)) || { id: cartId, items: [] };
-  return cart ? hydrateCart(cart) : null;
+  return hydrateCart(cart);
 }
 
 export function calculateCartTotal(cart) {
