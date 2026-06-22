@@ -1,8 +1,9 @@
 import * as cartService from "./cartService.js";
+import * as userService from "./userService.js";
 import * as orderRepository from "../repositories/orderRepository.js";
 import { AppError } from "../utils/errorUtils.js";
 
-export async function processCheckout(shippingInfo, cartId) {
+export async function processCheckout(shippingInfo, cartId, userId = null) {
   const cart = await cartService.getCart(cartId);
 
   if (!cart || cart.items.length === 0) {
@@ -16,11 +17,21 @@ export async function processCheckout(shippingInfo, cartId) {
     imgSrc: item.product.imgSrc,
     quantity: item.quantity,
   }));
+
+  if (!userId) {
+    const user = await userService.getUserByEmail(shippingInfo.email);
+    if (user) userId = user.id;
+  }
+
   const order = {
+    userId,
     items,
     shippingInfo,
     total: cart.total,
+    status: "pending",
+    createdAt: new Date().toISOString(),
   };
+
   const newOrder = await orderRepository.create(order);
 
   await cartService.clearCart(cartId);
@@ -30,4 +41,8 @@ export async function processCheckout(shippingInfo, cartId) {
 
 export async function getOrderById(id) {
   return orderRepository.findById(id);
+}
+
+export async function linkPastOrdersToUser(email, userId) {
+  return orderRepository.updateUserIdByEmail(email, userId);
 }

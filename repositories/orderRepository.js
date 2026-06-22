@@ -15,8 +15,6 @@ export async function create(order) {
   const newOrder = {
     id,
     ...order,
-    status: "pending",
-    createdAt: new Date().toISOString(),
   };
 
   orders.push(newOrder);
@@ -31,4 +29,17 @@ export async function findById(id) {
   if (!Array.isArray(db.orders)) return null;
 
   return db.orders.find((order) => order.id === id) || null;
+}
+
+export async function updateUserIdByEmail(email, userId) {
+  const db = await getDb();
+  if (!db.orders) return;
+
+  db.orders.forEach((order) => {
+    if (order.shippingInfo && order.shippingInfo.email === email) {
+      order.userId = userId;
+    }
+  });
+
+  await saveDb(db);
 }
