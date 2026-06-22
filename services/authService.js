@@ -1,5 +1,5 @@
 import * as userService from "./userService.js";
-import * as orderService from "./userService.js";
+import * as orderService from "./orderService.js";
 import { AppError } from "../utils/errorUtils.js";
 import { comparePassword, hashPassword } from "../utils/passwordUtils.js";
 
