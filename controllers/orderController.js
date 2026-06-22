@@ -1,28 +1,18 @@
-import * as cartService from "../services/cartService.js";
 import * as orderService from "../services/orderService.js";
 import { AppError } from "../utils/errorUtils.js";
 
-const CART_COOKIE_NAME = "cartId";
-
-function getCartId(req) {
-  const cartId = req.signedCookies[CART_COOKIE_NAME];
-  return typeof cartId === "string" ? cartId : null;
-}
-
 export async function renderCheckout(req, res) {
-  const cartId = getCartId(req);
-  const cart = cartId ? await cartService.getCart(cartId) : null;
-  const checkoutCart = cart || { items: [], total: 0 };
+  const cart = req.cart || { items: [], total: 0 };
 
   res.render("checkout", {
-    cartItems: checkoutCart.items,
-    total: checkoutCart.total,
+    cartItems: cart.items,
+    total: cart.total ?? 0,
   });
 }
 
 export async function placeOrder(req, res) {
   const shippingInfo = req.body;
-  const cartId = getCartId(req);
+  const cartId = req.cartId;
   const newOrder = await orderService.processCheckout(shippingInfo, cartId);
 
   res.redirect(`/checkout/order-confirmation?orderId=${newOrder.id}`);
