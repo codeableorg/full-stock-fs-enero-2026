@@ -89,17 +89,188 @@
   ],
   "carts": [
     {
-      "id": 1,
+      "id": 2,
+      "userId": 1,
+      "items": []
+    },
+    {
+      "id": 3,
+      "userId": 2,
       "items": [
         {
           "productId": 1,
-          "quantity": 8
-        },
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "userId": null,
+      "items": []
+    },
+    {
+      "id": 5,
+      "userId": null,
+      "items": [
         {
           "productId": 2,
           "quantity": 1
         }
       ]
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "email": "carlitosway@gmail.com",
+      "password": "$2b$10$7wArv.ZhEk8coGOCv2GjIOtYowXswP48dHKq4UT/nSVdsmq2s9u9C"
+    },
+    {
+      "id": 2,
+      "email": "carlos06erh@gmail.com",
+      "password": "$2b$10$26ixk8ugxRHisL5ixIO3cOzgd3MRoD1w071NBUoEMv0CodlWJw4Fe"
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "userId": 2,
+      "items": [
+        {
+          "productId": 1,
+          "name": "Polo React",
+          "price": 2000,
+          "imgSrc": "/images/polos/polo-react.png",
+          "quantity": 3
+        },
+        {
+          "productId": 6,
+          "name": "Polo React",
+          "price": 7000,
+          "imgSrc": "/images/polos/polo-react.png",
+          "quantity": 1
+        }
+      ],
+      "shippingInfo": {
+        "email": "carlos06erh@gmail.com",
+        "firstName": "carlos",
+        "lastName": "huerta",
+        "company": "",
+        "address": "Mz. D lote 16 urb. Las Mercedes III - San martin de Porres",
+        "city": "Lima",
+        "country": "PE",
+        "region": "Lima",
+        "zipCode": "15116",
+        "phone": "+51970791041"
+      },
+      "total": 130,
+      "status": "pending",
+      "createdAt": "2026-06-23T00:11:19.382Z"
+    },
+    {
+      "id": 2,
+      "userId": null,
+      "items": [
+        {
+          "productId": 1,
+          "name": "Polo React",
+          "price": 2000,
+          "imgSrc": "/images/polos/polo-react.png",
+          "quantity": 3
+        },
+        {
+          "productId": 5,
+          "name": "Polo React",
+          "price": 10000,
+          "imgSrc": "/images/polos/polo-react.png",
+          "quantity": 2
+        }
+      ],
+      "shippingInfo": {
+        "email": "carlos15erh@gmail.com",
+        "firstName": "carlos",
+        "lastName": "huerta",
+        "company": "",
+        "address": "Mz D, Lote 16",
+        "city": "San Martín De Porres",
+        "country": "PE",
+        "region": "Gobierno Regional de Lima",
+        "zipCode": "15116",
+        "phone": "+51960265942"
+      },
+      "total": 260,
+      "status": "pending",
+      "createdAt": "2026-06-23T00:18:17.212Z"
+    },
+    {
+      "id": 3,
+      "userId": 2,
+      "items": [
+        {
+          "productId": 1,
+          "name": "Polo React",
+          "price": 2000,
+          "imgSrc": "/images/polos/polo-react.png",
+          "quantity": 2
+        }
+      ],
+      "shippingInfo": {
+        "email": "carlos06erh@gmail.com",
+        "firstName": "carlos",
+        "lastName": "huerta",
+        "company": "",
+        "address": "Mz. D lote 16 urb. Las Mercedes III - San martin de Porres",
+        "city": "Lima",
+        "country": "PE",
+        "region": "Lima",
+        "zipCode": "15116",
+        "phone": "+51970791041"
+      },
+      "total": 40,
+      "status": "pending",
+      "createdAt": "2026-06-23T00:42:05.287Z"
+    },
+    {
+      "id": 4,
+      "userId": 1,
+      "items": [
+        {
+          "productId": 2,
+          "name": "Polo React",
+          "price": 1000,
+          "imgSrc": "/images/polos/polo-react.png",
+          "quantity": 1
+        },
+        {
+          "productId": 6,
+          "name": "Polo React",
+          "price": 7000,
+          "imgSrc": "/images/polos/polo-react.png",
+          "quantity": 1
+        },
+        {
+          "productId": 1,
+          "name": "Polo React",
+          "price": 2000,
+          "imgSrc": "/images/polos/polo-react.png",
+          "quantity": 1
+        }
+      ],
+      "shippingInfo": {
+        "email": "carlos15erh@gmail.com",
+        "firstName": "carlos",
+        "lastName": "huerta",
+        "company": "",
+        "address": "Mz D, Lote 16",
+        "city": "San Martín De Porres",
+        "country": "PE",
+        "region": "Gobierno Regional de Lima",
+        "zipCode": "15116",
+        "phone": "+51960265942"
+      },
+      "total": 100,
+      "status": "pending",
+      "createdAt": "2026-06-23T00:46:42.716Z"
     }
   ]
 }
