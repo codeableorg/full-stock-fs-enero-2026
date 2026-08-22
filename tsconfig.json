@@ -1,0 +1,28 @@
+{
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "compilerOptions": {
+    // Environment Settings
+    // See also https://aka.ms/tsconfig/module
+    "module": "nodenext",
+    "target": "esnext",
+    // For nodejs:
+    // "lib": ["esnext"],
+    // "types": ["node"],
+    // and npm install -D @types/node
+
+    // Other Outputs
+    // "sourceMap": true,
+    // "declaration": true,
+    // "declarationMap": true,
+
+    // Recommended Options
+    "allowImportingTsExtensions": true,
+    "allowJs": true,
+    "strict": true,
+    "noEmit": true,
+    "verbatimModuleSyntax": true, // revisarlo en código
+    "noUncheckedSideEffectImports": true,
+    "skipLibCheck": true
+  },
+  "exclude": ["node_modules", "public"]
+}

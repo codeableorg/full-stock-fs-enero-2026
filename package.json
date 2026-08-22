@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node --env-file=.env --watch app.js",
+    "dev": "node --env-file=.env --watch app.ts",
     "lint": "eslint .",
     "format": "prettier --write ."
   },
@@ -14,10 +14,16 @@
   "type": "module",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/express": "^5.0.6",
+    "@types/express-ejs-layouts": "^2.5.4",
+    "@types/node": "^26.2.0",
     "eslint": "^10.2.1",
     "globals": "^17.5.0",
     "prettier": "^3.8.3",
-    "prettier-plugin-ejs": "^1.0.3"
+    "prettier-plugin-ejs": "^1.0.3",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.67.0"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
