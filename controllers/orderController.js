@@ -1,5 +1,5 @@
 import * as orderService from "../services/orderService.js";
-import { AppError } from "../utils/errorUtils.js";
+import { AppError } from "../utils/errorUtils.ts";
 
 export async function renderCheckout(req, res) {
   const cart = req.cart || { items: [], total: 0 };

@@ -1,7 +1,7 @@
 import * as categoryService from "../services/categoryService.js";
 import * as productService from "../services/productService.js";
-import { AppError } from "../utils/errorUtils.js";
-import { parsePriceToCents } from "../utils/handlerUtils.js";
+import { AppError } from "../utils/errorUtils.ts";
+import { parsePriceToCents } from "../utils/handlerUtils.ts";
 
 export async function renderProduct(req, res) {
   const { id } = req.params;

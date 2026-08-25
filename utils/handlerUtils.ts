@@ -1,4 +1,4 @@
-export function parsePriceToCents(value) {
+export function parsePriceToCents(value: string | undefined) {
   if (!value) return null;
 
   if (!value.trim()) return null;

@@ -1,7 +1,7 @@
 import * as userService from "./userService.js";
 import * as orderService from "./orderService.js";
-import { AppError } from "../utils/errorUtils.js";
-import { comparePassword, hashPassword } from "../utils/passwordUtils.js";
+import { AppError } from "../utils/errorUtils.ts";
+import { comparePassword, hashPassword } from "../utils/passwordUtils.ts";
 
 export async function signup(email, password, confirmPassword) {
   if (password !== confirmPassword) {

@@ -1,5 +1,5 @@
 import * as cartService from "../services/cartService.js";
-import { setCookie } from "../utils/cookieUtils.js";
+import { setCookie } from "../utils/cookieUtils.ts";
 // Función escrita con síntaxis flecha por fines educativos
 // Se debería respetar el formato de escritura de funciones global
 // Ver el resto de controllers.

@@ -1,7 +1,7 @@
 import * as cartService from "./cartService.js";
 import * as userService from "./userService.js";
 import * as orderRepository from "../repositories/orderRepository.js";
-import { AppError } from "../utils/errorUtils.js";
+import { AppError } from "../utils/errorUtils.ts";
 
 export async function processCheckout(shippingInfo, cartId, userId = null) {
   const cart = await cartService.getCart(cartId);

@@ -1,5 +1,5 @@
 import * as userService from "../services/userService.js";
-import { clearCookie } from "../utils/cookieUtils.js";
+import { clearCookie } from "../utils/cookieUtils.ts";
 
 export async function authContext(req, res, next) {
   // 1. Valores por defecto (asumimos que nadie está logueado al inicio)

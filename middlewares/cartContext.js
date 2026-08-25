@@ -1,4 +1,4 @@
-import { clearCookie, getCookie } from "../utils/cookieUtils.js";
+import { clearCookie, getCookie } from "../utils/cookieUtils.ts";
 import * as cartService from "../services/cartService.js";
 
 const injectCart = (req, res, cart) => {
