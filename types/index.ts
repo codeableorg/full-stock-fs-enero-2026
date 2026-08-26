@@ -64,3 +64,11 @@ export interface ShippingInfo {
   zipCode: string;
   phone: string;
 }
+
+export interface Db {
+  categories: Category[];
+  products: Product[];
+  carts: Cart[];
+  users?: User[];
+  orders?: Order[];
+}

@@ -1,4 +1,4 @@
-import { getDb, getNextId, saveDb } from "../db.js";
+import { getDb, getNextId, saveDb } from "../db.ts";
 
 function getOrders(db) {
   if (!Array.isArray(db.orders)) {

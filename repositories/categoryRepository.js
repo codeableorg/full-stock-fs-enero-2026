@@ -1,4 +1,4 @@
-import { getDb } from "../db.js";
+import { getDb } from "../db.ts";
 
 export async function findAll() {
   const db = await getDb();

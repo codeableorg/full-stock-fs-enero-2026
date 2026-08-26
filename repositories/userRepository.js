@@ -1,4 +1,12 @@
-import { getDb, getNextId, saveDb } from "../db.js";
+import { getDb, getNextId, saveDb } from "../db.ts";
+
+// function getUsers(db) {
+//   if (!Array.isArray(db.users)) {
+//     db.carts = [];
+//   }
+
+//   return db.carts;
+// }
 
 export async function findByEmail(email) {
   const db = await getDb();
