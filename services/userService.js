@@ -1,4 +1,4 @@
-import * as userRepository from "../repositories/userRepository.js";
+import * as userRepository from "../repositories/userRepository.ts";
 
 export async function getUserByEmail(email) {
   return await userRepository.findByEmail(email);
