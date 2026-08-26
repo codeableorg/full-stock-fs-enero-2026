@@ -1,6 +1,6 @@
 import crypto from "node:crypto";
 import * as cartRepository from "../repositories/cartRepository.js";
-import * as productRepository from "../repositories/productRepository.js";
+import * as productRepository from "../repositories/productRepository.ts";
 import { AppError } from "../utils/errorUtils.ts";
 
 export async function findCart(cartId) {

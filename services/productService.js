@@ -1,4 +1,4 @@
-import * as productRepository from "../repositories/productRepository.js";
+import * as productRepository from "../repositories/productRepository.ts";
 
 export async function getProductsByCategory(categoryId, filters = {}) {
   const products = await productRepository.findAll();
