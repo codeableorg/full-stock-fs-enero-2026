@@ -7,15 +7,6 @@ export async function findCart(cartId) {
   return cartRepository.find(cartId);
 }
 
-export async function createCart() {
-  const cart = {
-    id: crypto.randomUUID(),
-    items: [],
-  };
-
-  return cartRepository.create(cart);
-}
-
 async function hydrateCart(cart) {
   const products = await productRepository.findAll();
 

@@ -4,31 +4,7 @@ import { setCookie } from "../utils/cookieUtils.ts";
 // Se debería respetar el formato de escritura de funciones global
 // Ver el resto de controllers.
 
-const CART_COOKIE_NAME = "cartId";
-
-const CART_COOKIE_OPTIONS = {
-  secure: process.env.NODE_ENV === "production",
-  sameSite: true,
-  signed: true,
-};
-
-async function getOrCreateCart(req, res) {
-  const cartId = req.cartId;
-  const cart = cartId ? await cartService.findCart(cartId) : null;
-
-  if (cart) return cart;
-
-  const newCart = await cartService.createCart();
-  setCookie(res, CART_COOKIE_NAME, newCart.id, CART_COOKIE_OPTIONS);
-
-  return newCart;
-}
-
 export const renderCart = async (req, res) => {
-  // const currentCart = await getOrCreateCart(req, res);
-  // const cart = await cartService.getCart(currentCart.id);
-
-  // const cartTotal = cartService.calculateCartTotal(cart);
   const cart = req.cart || { items: [], total: 0 };
   cart.total = cartService.calculateCartTotal(cart);
   res.render("cart", { cartItems: cart.items, total: cart.total });
