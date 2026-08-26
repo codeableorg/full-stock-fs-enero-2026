@@ -26,7 +26,9 @@ export async function destroy(cartId) {
   const db = await getDb();
   const carts = getCarts(db);
 
-  const cartIndex = carts.findIndex((cart) => cart.id === cartId) || null;
+  const cartIndex = carts.findIndex((cart) => cart.id === cartId);
+
+  if (cartIndex === -1) return;
 
   carts.splice(cartIndex, 1);
   await saveDb(db);
