@@ -1,6 +1,7 @@
 import { getDb, getNextId, saveDb } from "../db.ts";
+import type { Db, Order } from "../types/index.ts";
 
-function getOrders(db) {
+function getOrders(db: Db) {
   if (!Array.isArray(db.orders)) {
     db.orders = [];
   }
@@ -8,7 +9,7 @@ function getOrders(db) {
   return db.orders;
 }
 
-export async function create(order) {
+export async function create(order: Omit<Order, "id">) {
   const db = await getDb();
   const orders = getOrders(db);
   const id = await getNextId("orders");
@@ -23,15 +24,15 @@ export async function create(order) {
   return newOrder;
 }
 
-export async function findById(id) {
+export async function findById(orderId: number) {
   const db = await getDb();
 
   if (!Array.isArray(db.orders)) return null;
 
-  return db.orders.find((order) => order.id === id) || null;
+  return db.orders.find((order) => order.id === orderId) || null;
 }
 
-export async function updateUserIdByEmail(email, userId) {
+export async function updateUserIdByEmail(email: string, userId: number) {
   const db = await getDb();
   if (!db.orders) return;
 

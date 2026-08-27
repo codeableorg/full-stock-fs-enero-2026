@@ -1,6 +1,6 @@
 import * as cartService from "./cartService.js";
 import * as userService from "./userService.js";
-import * as orderRepository from "../repositories/orderRepository.js";
+import * as orderRepository from "../repositories/orderRepository.ts";
 import { AppError } from "../utils/errorUtils.ts";
 
 export async function processCheckout(shippingInfo, cartId, userId = null) {
