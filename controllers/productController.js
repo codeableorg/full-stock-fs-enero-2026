@@ -1,5 +1,5 @@
 import * as categoryService from "../services/categoryService.ts";
-import * as productService from "../services/productService.js";
+import * as productService from "../services/productService.ts";
 import { AppError } from "../utils/errorUtils.ts";
 import { parsePriceToCents } from "../utils/handlerUtils.ts";
 

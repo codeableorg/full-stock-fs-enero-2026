@@ -1,6 +1,14 @@
 import * as productRepository from "../repositories/productRepository.ts";
 
-export async function getProductsByCategory(categoryId, filters = {}) {
+interface PriceFilters {
+  minPrice?: number | null;
+  maxPrice?: number | null;
+}
+
+export async function getProductsByCategory(
+  categoryId: number,
+  filters: PriceFilters = {},
+) {
   const products = await productRepository.findAll();
 
   // Aplicamos la lógica de filtrado
@@ -16,7 +24,7 @@ export async function getProductsByCategory(categoryId, filters = {}) {
   });
 }
 
-export async function getProductById(productId) {
+export async function getProductById(productId: number) {
   const product = await productRepository.find(productId);
   return product;
 }
