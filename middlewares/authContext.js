@@ -1,4 +1,4 @@
-import * as userService from "../services/userService.js";
+import * as userService from "../services/userService.ts";
 import { clearCookie } from "../utils/cookieUtils.ts";
 
 export async function authContext(req, res, next) {
