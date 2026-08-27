@@ -1,6 +1,7 @@
 import { getDb, getNextId, saveDb } from "../db.ts";
+import type { Cart, Db } from "../types/index.ts";
 
-function getCarts(db) {
+function getCarts(db: Db) {
   if (!Array.isArray(db.carts)) {
     db.carts = [];
   }
@@ -8,21 +9,21 @@ function getCarts(db) {
   return db.carts;
 }
 
-export async function find(cartId) {
+export async function find(cartId: number) {
   const db = await getDb();
   const carts = getCarts(db);
 
   return carts.find((cart) => cart.id === cartId) || null;
 }
 
-export async function findByUserId(userId) {
+export async function findByUserId(userId: number) {
   const db = await getDb();
   const carts = getCarts(db);
 
   return carts.find((cart) => cart.userId === userId) || null;
 }
 
-export async function destroy(cartId) {
+export async function destroy(cartId: number) {
   const db = await getDb();
   const carts = getCarts(db);
 
@@ -34,7 +35,7 @@ export async function destroy(cartId) {
   await saveDb(db);
 }
 
-export async function create(userId) {
+export async function create(userId: number) {
   const db = await getDb();
   const carts = getCarts(db);
   const id = await getNextId("carts");
@@ -46,7 +47,7 @@ export async function create(userId) {
   return newCart;
 }
 
-export async function update(updatedCart) {
+export async function update(updatedCart: Cart) {
   const db = await getDb();
   const carts = getCarts(db);
   const cartIndex = carts.findIndex((cart) => cart.id === updatedCart.id);
