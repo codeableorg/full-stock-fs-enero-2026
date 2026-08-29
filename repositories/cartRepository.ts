@@ -35,7 +35,7 @@ export async function destroy(cartId: number) {
   await saveDb(db);
 }
 
-export async function create(userId: number) {
+export async function create(userId: number | null) {
   const db = await getDb();
   const carts = getCarts(db);
   const id = await getNextId("carts");

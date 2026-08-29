@@ -19,7 +19,7 @@ export interface Product {
 
 export interface Cart {
   id: number;
-  userId?: number;
+  userId?: number | null;
   items: CartItem[];
 }
 

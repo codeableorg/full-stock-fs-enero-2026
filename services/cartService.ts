@@ -2,22 +2,34 @@ import crypto from "node:crypto";
 import * as cartRepository from "../repositories/cartRepository.ts";
 import * as productRepository from "../repositories/productRepository.ts";
 import { AppError } from "../utils/errorUtils.ts";
+import type { Cart, Product } from "../types/index.ts";
 
-export async function findCart(cartId) {
+interface HydrateCartItem {
+  productId: number;
+  product: Product;
+  price: number;
+  quantity: number;
+}
+
+interface HydrateCart extends Omit<Cart, "items"> {
+  items: HydrateCartItem[];
+  total: number;
+}
+
+export async function findCart(cartId: number) {
   return cartRepository.find(cartId);
 }
 
-async function hydrateCart(cart) {
+async function hydrateCart(cart: Cart): Promise<HydrateCart> {
   const products = await productRepository.findAll();
 
-  const cartWithProducts = cart.items.map((item) => {
+  const cartWithProducts = cart.items.map((item): HydrateCartItem | null => {
     const product = products.find((product) => product.id === item.productId);
     if (!product) return null;
 
     const price = product.price / 100;
 
     return {
-      ...product,
       productId: item.productId,
       product,
       price,
@@ -25,7 +37,7 @@ async function hydrateCart(cart) {
     };
   });
 
-  const enrichedItems = cartWithProducts.filter(Boolean);
+  const enrichedItems = cartWithProducts.filter((item) => item !== null);
 
   const total = calculateCartTotal({ items: enrichedItems });
 
@@ -33,7 +45,8 @@ async function hydrateCart(cart) {
 }
 
 // todo: Revisar si esta logica es totalmente necesario o reduce lineas de codigo
-function toPersistable(cart) {
+// ? Revisar si se puede remover Cart por si rompe otras partes de la app
+function toPersistable(cart: Cart): Cart {
   return {
     id: cart.id,
     userId: cart.userId ?? null,
@@ -44,24 +57,27 @@ function toPersistable(cart) {
   };
 }
 
-export async function getCart(cartId) {
+export async function getCart(cartId: number) {
   const cart = (await cartRepository.find(cartId)) || { id: cartId, items: [] };
   return hydrateCart(cart);
 }
 
-export function calculateCartTotal(cart) {
+export function calculateCartTotal(cart: { items: HydrateCartItem[] }) {
   return (cart.items || []).reduce(
     (total, item) => total + item.price * item.quantity,
     0,
   );
 }
 
-export async function getCartByUserId(userId) {
+export async function getCartByUserId(userId: number) {
   const cart = await cartRepository.findByUserId(userId);
   return cart ? hydrateCart(cart) : null;
 }
 
-export async function getOrCreateCart(cartId, userId = null) {
+export async function getOrCreateCart(
+  cartId: number | null,
+  userId: number | null = null,
+) {
   let cart;
 
   if (cartId) {
@@ -81,7 +97,11 @@ export async function getOrCreateCart(cartId, userId = null) {
   return cart ?? null;
 }
 
-export async function addItem(cartId, productId, userId) {
+export async function addItem(
+  cartId: number | null,
+  productId: number,
+  userId: number | null,
+) {
   if (!Number.isInteger(productId)) {
     throw new AppError("Producto inválido", 400);
   }
