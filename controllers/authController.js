@@ -1,6 +1,6 @@
 import * as authService from "../services/authService.js";
 import { clearCookie, setCookie } from "../utils/cookieUtils.ts";
-import * as cartService from "../services/cartService.js";
+import * as cartService from "../services/cartService.ts";
 
 export async function renderSignup(req, res) {
   if (req.user) {

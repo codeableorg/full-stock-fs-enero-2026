@@ -1,5 +1,5 @@
 import { clearCookie, getCookie } from "../utils/cookieUtils.ts";
-import * as cartService from "../services/cartService.js";
+import * as cartService from "../services/cartService.ts";
 
 const injectCart = (req, res, cart) => {
   if (!cart) return;

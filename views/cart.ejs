@@ -15,7 +15,12 @@
           <div class="cart__item-header">
             <h2 class="cart__item-title"><%= item.name %></h2>
             <form method="post" action="/cart/delete-item">
-              <input type="hidden" name="productId" value="<%= item.id %>" />
+              <input
+                type="hidden"
+                name="productId"
+                value="<%= item.productId %>"
+                value="<%= item.product.id %>"
+              />
               <button
                 type="submit"
                 class="button button--sm-icon button--outline"
@@ -32,7 +37,11 @@
                 method="post"
                 action="<%= item.quantity === 1 ? '/cart/delete-item' : '/cart/update-item/' %>"
               >
-                <input type="hidden" name="productId" value="<%= item.id %>" />
+                <input
+                  type="hidden"
+                  name="productId"
+                  value="<%= item.productId %>"
+                />
                 <input type="hidden" name="action" value="decrease" />
                 <button
                   type="submit"
@@ -46,7 +55,11 @@
                 ><%= item.quantity %></span
               >
               <form method="post" action="/cart/update-item">
-                <input type="hidden" name="productId" value="<%= item.id %>" />
+                <input
+                  type="hidden"
+                  name="productId"
+                  value="<%= item.productId %>"
+                />
                 <input type="hidden" name="action" value="increase" />
                 <button
                   type="submit"

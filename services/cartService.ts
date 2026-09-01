@@ -2,11 +2,13 @@ import crypto from "node:crypto";
 import * as cartRepository from "../repositories/cartRepository.ts";
 import * as productRepository from "../repositories/productRepository.ts";
 import { AppError } from "../utils/errorUtils.ts";
-import type { Cart, Product } from "../types/index.ts";
+import type { Cart } from "../types/index.ts";
 
 interface HydrateCartItem {
   productId: number;
-  product: Product;
+  imgSrc: string;
+  alt: string;
+  name: string;
   price: number;
   quantity: number;
 }
@@ -20,6 +22,7 @@ export async function findCart(cartId: number) {
   return cartRepository.find(cartId);
 }
 
+// Todo: analizar si se puede reforzar tipado
 async function hydrateCart(cart: Cart): Promise<HydrateCart> {
   const products = await productRepository.findAll();
 
@@ -30,8 +33,10 @@ async function hydrateCart(cart: Cart): Promise<HydrateCart> {
     const price = product.price / 100;
 
     return {
+      imgSrc: product.imgSrc,
+      alt: product.description,
+      name: product.name,
       productId: item.productId,
-      product,
       price,
       quantity: item.quantity,
     };
@@ -132,7 +137,11 @@ export async function addItem(
   return cart;
 }
 
-export async function updateItem(cartId, productId, action) {
+export async function updateItem(
+  cartId: number,
+  productId: number,
+  action: string,
+) {
   if (!Number.isInteger(productId)) {
     throw new AppError("Producto inválido", 400);
   }
@@ -166,7 +175,7 @@ export async function updateItem(cartId, productId, action) {
   await cartRepository.update(toPersistable(cart));
 }
 
-export async function deleteItem(cartId, productId) {
+export async function deleteItem(cartId: number, productId: number) {
   if (!Number.isInteger(productId)) {
     throw new AppError("Producto inválido", 400);
   }
@@ -184,7 +193,7 @@ export async function deleteItem(cartId, productId) {
   await cartRepository.update(toPersistable(cart));
 }
 
-export async function mergeCarts(guestCartId, userId) {
+export async function mergeCarts(guestCartId: number, userId: number) {
   const guestCart = await cartRepository.find(guestCartId);
   if (!guestCart || guestCart.items.length === 0) return;
 
@@ -210,7 +219,7 @@ export async function mergeCarts(guestCartId, userId) {
   await cartRepository.destroy(guestCartId);
 }
 
-export async function clearCart(cartId) {
+export async function clearCart(cartId: number) {
   const cart = await cartRepository.find(cartId);
 
   if (!cart) return;

@@ -1,4 +1,4 @@
-import * as cartService from "./cartService.js";
+import * as cartService from "./cartService.ts";
 import * as userService from "./userService.ts";
 import * as orderRepository from "../repositories/orderRepository.ts";
 import { AppError } from "../utils/errorUtils.ts";
