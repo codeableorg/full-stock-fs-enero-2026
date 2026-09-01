@@ -1,4 +1,4 @@
-import * as orderService from "../services/orderService.js";
+import * as orderService from "../services/orderService.ts";
 import { AppError } from "../utils/errorUtils.ts";
 
 export async function renderCheckout(req, res) {

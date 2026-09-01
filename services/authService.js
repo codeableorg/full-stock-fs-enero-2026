@@ -1,5 +1,5 @@
 import * as userService from "./userService.ts";
-import * as orderService from "./orderService.js";
+import * as orderService from "./orderService.ts";
 import { AppError } from "../utils/errorUtils.ts";
 import { comparePassword, hashPassword } from "../utils/passwordUtils.ts";
 

@@ -2,8 +2,13 @@ import * as cartService from "./cartService.ts";
 import * as userService from "./userService.ts";
 import * as orderRepository from "../repositories/orderRepository.ts";
 import { AppError } from "../utils/errorUtils.ts";
+import type { ShippingInfo } from "../types/index.ts";
 
-export async function processCheckout(shippingInfo, cartId, userId = null) {
+export async function processCheckout(
+  shippingInfo: ShippingInfo,
+  cartId: number,
+  userId: number | null = null,
+) {
   const cart = await cartService.getCart(cartId);
 
   if (!cart || cart.items.length === 0) {
@@ -12,9 +17,9 @@ export async function processCheckout(shippingInfo, cartId, userId = null) {
 
   const items = cart.items.map((item) => ({
     productId: item.productId,
-    name: item.product.name,
-    price: item.product.price,
-    imgSrc: item.product.imgSrc,
+    name: item.name,
+    price: item.price,
+    imgSrc: item.imgSrc,
     quantity: item.quantity,
   }));
 
@@ -39,10 +44,10 @@ export async function processCheckout(shippingInfo, cartId, userId = null) {
   return newOrder;
 }
 
-export async function getOrderById(id) {
+export async function getOrderById(id: number) {
   return orderRepository.findById(id);
 }
 
-export async function linkPastOrdersToUser(email, userId) {
+export async function linkPastOrdersToUser(email: string, userId: number) {
   return orderRepository.updateUserIdByEmail(email, userId);
 }

@@ -36,7 +36,7 @@ export interface User {
 
 export interface Order {
   id: number;
-  userId?: number;
+  userId?: number | null;
   items: OrderItem[];
   shippingInfo: ShippingInfo;
   total: number;
