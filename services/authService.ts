@@ -3,7 +3,11 @@ import * as orderService from "./orderService.ts";
 import { AppError } from "../utils/errorUtils.ts";
 import { comparePassword, hashPassword } from "../utils/passwordUtils.ts";
 
-export async function signup(email, password, confirmPassword) {
+export async function signup(
+  email: string,
+  password: string,
+  confirmPassword: string,
+) {
   if (password !== confirmPassword) {
     throw new AppError("Las contraseñas no coinciden", 400);
   }
@@ -24,7 +28,7 @@ export async function signup(email, password, confirmPassword) {
   return user;
 }
 
-export async function login(email, password) {
+export async function login(email: string, password: string) {
   // 1. Buscamos al usuario por correo
   const user = await userService.getUserByEmail(email);
   if (!user) {

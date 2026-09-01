@@ -22,7 +22,8 @@ export async function findById(userId: number) {
 export async function create(userData: Omit<User, "id">) {
   const db = await getDb();
   const nextId = await getNextId("users");
-  const newUser = { id: nextId, ...userData };
+  // Todo:  restringir TS pues con un objeto y el spread esto pasa
+  const newUser: User = { id: nextId, ...userData };
   getUsers(db).push(newUser);
   await saveDb(db);
   return newUser;

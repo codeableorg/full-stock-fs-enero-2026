@@ -1,4 +1,4 @@
-import * as authService from "../services/authService.js";
+import * as authService from "../services/authService.ts";
 import { clearCookie, setCookie } from "../utils/cookieUtils.ts";
 import * as cartService from "../services/cartService.ts";
 
