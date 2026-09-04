@@ -26,5 +26,7 @@ export async function getProductsByCategory(
 
 export async function getProductById(productId: number) {
   const product = await productRepository.find(productId);
-  return product;
+  if (!product) return product;
+
+  return { ...product, price: product.price / 100 };
 }
