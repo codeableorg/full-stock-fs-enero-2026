@@ -18,10 +18,15 @@ export async function processCheckout(
   const items = cart.items.map((item) => ({
     productId: item.productId,
     name: item.name,
-    price: item.price,
+    price: item.price * 100,
     imgSrc: item.imgSrc,
     quantity: item.quantity,
   }));
+
+  const total = items.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0,
+  );
 
   if (!userId) {
     const user = await userService.getUserByEmail(shippingInfo.email);
@@ -32,7 +37,7 @@ export async function processCheckout(
     userId,
     items,
     shippingInfo,
-    total: cart.total,
+    total,
     status: "pending",
     createdAt: new Date().toISOString(),
   };

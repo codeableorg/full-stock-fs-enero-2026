@@ -11,6 +11,7 @@ export interface Product {
   id: number;
   name: string;
   imgSrc: string;
+  // * Debe expresarse en centavos
   price: number;
   description: string;
   categoryId: number;
@@ -39,6 +40,7 @@ export interface Order {
   userId?: number | null;
   items: OrderItem[];
   shippingInfo: ShippingInfo;
+  // * Debe expresarse en centavos
   total: number;
   status: string;
   createdAt: string;
@@ -47,6 +49,7 @@ export interface Order {
 export interface OrderItem {
   productId: number;
   name: string;
+  // * Debe expresarse en centavos
   price: number;
   imgSrc: string;
   quantity: number;
