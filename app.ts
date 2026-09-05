@@ -2,11 +2,11 @@ import express from "express";
 import expressEjsLayout from "express-ejs-layouts";
 import cookieParser from "cookie-parser";
 
-import { errorHandler } from "./middlewares/errorHandler.js";
+import { errorHandler } from "./middlewares/errorHandler.ts";
 import { notFoundHandler } from "./controllers/notFoundController.js";
 import router from "./routes/router.js";
-import { cartContext } from "./middlewares/cartContext.js";
-import { authContext } from "./middlewares/authContext.js";
+import { cartContext } from "./middlewares/cartContext.ts";
+import { authContext } from "./middlewares/authContext.ts";
 const app = express();
 const PORT = 3000;
 

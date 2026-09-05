@@ -1,7 +1,12 @@
+import type { NextFunction, Request, Response } from "express";
 import * as userService from "../services/userService.ts";
 import { clearCookie } from "../utils/cookieUtils.ts";
 
-export async function authContext(req, res, next) {
+export async function authContext(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
   // 1. Valores por defecto (asumimos que nadie está logueado al inicio)
   req.user = null;
   res.locals.user = null;

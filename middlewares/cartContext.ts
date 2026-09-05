@@ -1,7 +1,12 @@
 import { clearCookie, getCookie } from "../utils/cookieUtils.ts";
 import * as cartService from "../services/cartService.ts";
+import type { NextFunction, Request, Response } from "express";
 
-const injectCart = (req, res, cart) => {
+const injectCart = (
+  req: Request,
+  res: Response,
+  cart: cartService.HydrateCart | null,
+) => {
   if (!cart) return;
   req.cart = cart;
   req.cartId = cart.id;
@@ -12,7 +17,11 @@ const injectCart = (req, res, cart) => {
   );
 };
 
-export async function cartContext(req, res, next) {
+export async function cartContext(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
   // 1. Lee la cookie 'cartId'
   const cartIdCookie = getCookie(req, "cartId");
 

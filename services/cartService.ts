@@ -13,7 +13,7 @@ interface HydrateCartItem {
   quantity: number;
 }
 
-interface HydrateCart extends Omit<Cart, "items"> {
+export interface HydrateCart extends Omit<Cart, "items"> {
   items: HydrateCartItem[];
   total: number;
 }
