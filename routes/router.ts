@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { setupRouter } from "./setupRouter.js";
+import { setupRouter } from "./setupRouter.ts";
 
 const router = Router();
 
-// funcion setup o configuración
+// función setup o configuración
 setupRouter(router);
 
 export default router;
