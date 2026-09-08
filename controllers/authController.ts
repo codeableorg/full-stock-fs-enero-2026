@@ -1,8 +1,9 @@
 import * as authService from "../services/authService.ts";
 import { clearCookie, setCookie } from "../utils/cookieUtils.ts";
 import * as cartService from "../services/cartService.ts";
+import type { Request, Response } from "express";
 
-export async function renderSignup(req, res) {
+export async function renderSignup(req: Request, res: Response) {
   if (req.user) {
     return res.redirect("/");
   }
@@ -10,7 +11,7 @@ export async function renderSignup(req, res) {
   res.render("signup");
 }
 
-export async function handleSignup(req, res) {
+export async function handleSignup(req: Request, res: Response) {
   const { email, password, confirmPassword } = req.body;
 
   try {
@@ -23,14 +24,17 @@ export async function handleSignup(req, res) {
     setCookie(res, "userId", user.id, { signed: true });
     res.redirect("/");
   } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Algo salió mal...";
+
     res.render("signup", {
-      error: error.message,
+      error: message,
       values: { email },
     });
   }
 }
 
-export async function renderLogin(req, res) {
+export async function renderLogin(req: Request, res: Response) {
   if (req.user) {
     return res.redirect("/");
   }
@@ -38,7 +42,7 @@ export async function renderLogin(req, res) {
   res.render("login");
 }
 
-export async function handleLogin(req, res) {
+export async function handleLogin(req: Request, res: Response) {
   const { email, password } = req.body;
 
   try {
@@ -57,11 +61,14 @@ export async function handleLogin(req, res) {
     res.redirect("/");
   } catch (error) {
     // Si la validación falla (ej. contraseña incorrecta)
-    res.render("login", { error: error.message, values: { email } });
+    const message =
+      error instanceof Error ? error.message : "Algo salió mal...";
+
+    res.render("login", { error: message, values: { email } });
   }
 }
 
-export async function handleLogout(_req, res) {
+export async function handleLogout(_req: Request, res: Response) {
   // Al hacer "Logout", simplemente destruimos la cookie
   clearCookie(res, "userId");
   res.redirect("/");
