@@ -3,7 +3,7 @@ import expressEjsLayout from "express-ejs-layouts";
 import cookieParser from "cookie-parser";
 
 import { errorHandler } from "./middlewares/errorHandler.ts";
-import { notFoundHandler } from "./controllers/notFoundController.js";
+import { notFoundHandler } from "./controllers/notFoundController.ts";
 import router from "./routes/router.js";
 import { cartContext } from "./middlewares/cartContext.ts";
 import { authContext } from "./middlewares/authContext.ts";

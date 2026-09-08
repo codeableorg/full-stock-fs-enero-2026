@@ -1,4 +1,10 @@
-export function notFoundHandler(_req, res, _next) {
+import type { NextFunction, Request, Response } from "express";
+
+export function notFoundHandler(
+  _req: Request,
+  res: Response,
+  _next: NextFunction,
+) {
   res.status(404).render("error", {
     errorTitle: "404 - No encontrado",
     errorMessage: "La página que estás buscando no existe o ha sido movida",
