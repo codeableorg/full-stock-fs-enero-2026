@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as pagesController from "../controllers/pagesController.js";
+import * as pagesController from "../controllers/pagesController.ts";
 const pagesRouter = Router();
 
 pagesRouter.get("/", pagesController.renderHome);
