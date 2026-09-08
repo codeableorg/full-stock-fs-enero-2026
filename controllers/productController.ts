@@ -1,9 +1,10 @@
+import type { Request, Response } from "express";
 import * as categoryService from "../services/categoryService.ts";
 import * as productService from "../services/productService.ts";
 import { AppError } from "../utils/errorUtils.ts";
 import { parsePriceToCents } from "../utils/handlerUtils.ts";
 
-export async function renderProduct(req, res) {
+export async function renderProduct(req: Request, res: Response) {
   const { id } = req.params;
 
   const product = await productService.getProductById(Number(id));
@@ -15,7 +16,10 @@ export async function renderProduct(req, res) {
   res.render("product", { product });
 }
 
-export async function renderCategory(req, res) {
+export async function renderCategory(
+  req: Request<{ slug: string }>,
+  res: Response,
+) {
   const { slug } = req.params;
 
   // 1. Valida que la categoría exista utilizando el servicio
@@ -26,8 +30,14 @@ export async function renderCategory(req, res) {
   }
 
   // 2. Manejo de Input (Preocupación del Controller)
-  const minPrice = parsePriceToCents(req.query.minPrice);
-  const maxPrice = parsePriceToCents(req.query.maxPrice);
+  const minPrice =
+    typeof req.query.minPrice === "string"
+      ? parsePriceToCents(req.query.minPrice)
+      : null;
+  const maxPrice =
+    typeof req.query.maxPrice === "string"
+      ? parsePriceToCents(req.query.maxPrice)
+      : null;
 
   // 3. Llamada al Servicio (Lógica delegada)
   const products = await productService.getProductsByCategory(category.id, {
