@@ -1,4 +1,4 @@
-// import { parsePriceToCents } from "../utils/handlerUtils.js";
+// import { parsePriceToCents } from "../utils/handlerUtils.ts";
 
 // export async function categoryHandler(req, res) {
 //   const { slug } = req.params;
