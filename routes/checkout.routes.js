@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as orderController from "../controllers/orderController.js";
+import * as orderController from "../controllers/orderController.ts";
 const checkoutRouter = Router();
 
 checkoutRouter.get("/", orderController.renderCheckout);
