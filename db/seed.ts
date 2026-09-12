@@ -29,6 +29,30 @@ try {
     );
   }
 
+  for (const product of data.products) {
+    await client.query(
+      `
+      INSERT INTO products (id, name, img_src, price, description, category_id, features)
+      VALUES ($1,$2,$3,$4,$5,$6, $7)`,
+      [
+        product.id,
+        product.name,
+        product.imgSrc,
+        product.price,
+        product.description,
+        product.categoryId,
+        product.features,
+      ],
+    );
+  }
+
+  await client.query(
+    "SELECT setval(pg_get_serial_sequence('categories', 'id'), (SELECT MAX(id) FROM categories))",
+  );
+  await client.query(
+    "SELECT setval(pg_get_serial_sequence('products', 'id'), (SELECT MAX(id) FROM products))",
+  );
+
   await client.query("COMMIT");
   console.log("Seed ejecutado con éxito");
 } catch (error) {
