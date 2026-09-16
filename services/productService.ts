@@ -9,6 +9,7 @@ export async function getProductsByCategory(
   categoryId: number,
   filters: PriceFilters = {},
 ) {
+  // Todo: migrar lógica al repositorio
   const products = await productRepository.findAll();
 
   // Aplicamos la lógica de filtrado

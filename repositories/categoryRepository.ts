@@ -1,4 +1,3 @@
-import { getDb } from "../db.ts";
 import { pool } from "../db/pool.ts";
 import type { Category } from "../types/index.ts";
 
