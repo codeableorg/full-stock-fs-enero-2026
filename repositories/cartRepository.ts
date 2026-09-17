@@ -1,19 +1,12 @@
-import { getDb, getNextId, saveDb } from "../db.ts";
 import { pool } from "../db/pool.ts";
-import type { Cart, Db } from "../types/index.ts";
+import type { Cart, CartItem, Db } from "../types/index.ts";
 
-function getCarts(db: Db) {
-  if (!Array.isArray(db.carts)) {
-    db.carts = [];
-  }
-
-  return db.carts;
-}
+type CartWithoutItems = Omit<Cart, "items">;
 
 // CART_ID, PRODUCT_ID, QUANTITY
 async function findItems(cartId: number) {
-  const { rows } = await pool.query(
-    `SELECT product_id AS productId, quantity
+  const { rows } = await pool.query<CartItem>(
+    `SELECT product_id AS "productId", quantity
      FROM cart_items
      WHERE cart_id = $1
     `,
@@ -23,7 +16,7 @@ async function findItems(cartId: number) {
   return rows;
 }
 
-async function withItems(cart: Cart) {
+async function withItems(cart: CartWithoutItems | undefined) {
   if (!cart) return null;
 
   const items = await findItems(cart.id);
@@ -31,9 +24,9 @@ async function withItems(cart: Cart) {
 }
 
 export async function find(cartId: number) {
-  const { rows } = await pool.query(
+  const { rows } = await pool.query<CartWithoutItems>(
     `
-    SELECT * FROM CARTS WHERE id = $1
+    SELECT id, user_id AS "userId" FROM carts WHERE id = $1
   `,
     [cartId],
   );
@@ -42,8 +35,8 @@ export async function find(cartId: number) {
 }
 
 export async function findByUserId(userId: number) {
-  const { rows } = await pool.query(
-    `SELECT id, user_id AS userId
+  const { rows } = await pool.query<CartWithoutItems>(
+    `SELECT id, user_id AS "userId"
      FROM carts
      WHERE user_id = $1`,
     [userId],
@@ -57,10 +50,10 @@ export async function destroy(cartId: number) {
 }
 
 export async function create(userId: number | null) {
-  const { rows } = await pool.query(
+  const { rows } = await pool.query<CartWithoutItems>(
     `INSERT INTO carts (user_id)
      VALUES ($1) 
-     RETURNING id, user_id as userId
+     RETURNING id, user_id as "userId"
     `,
     [userId],
   );
