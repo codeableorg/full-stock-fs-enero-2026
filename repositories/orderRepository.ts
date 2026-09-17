@@ -1,5 +1,6 @@
 import { getDb, getNextId, saveDb } from "../db.ts";
-import type { Db, Order } from "../types/index.ts";
+import { pool } from "../db/pool.ts";
+import type { Db, Order, OrderItem } from "../types/index.ts";
 
 function getOrders(db: Db) {
   if (!Array.isArray(db.orders)) {
@@ -9,38 +10,72 @@ function getOrders(db: Db) {
   return db.orders;
 }
 
+async function findItems(orderId: number) {
+  const { rows } = await pool.query<OrderItem>(
+    `
+    SELECT product_id AS "productId", name, price, img_src AS "imgSrc", quantity
+    FROM order_items
+    WHERE order_id = $1`,
+    [orderId],
+  );
+
+  return rows;
+}
+
 export async function create(order: Omit<Order, "id">) {
-  const db = await getDb();
-  const orders = getOrders(db);
-  const id = await getNextId("orders");
-  const newOrder = {
-    id,
-    ...order,
-  };
+  const { rows } = await pool.query<Omit<Order, "items">>(
+    `INSERT INTO orders (user_id, shipping_info, total, status, created_at)
+    VALUES ($1, $2, $3, $4, $5)
+    RETURNING id, user_id AS "userId", shipping_info AS "shippingInfo", total, status, created_at AS "createdAt"`,
+    [
+      order.userId,
+      order.shippingInfo,
+      order.total,
+      order.status,
+      order.createdAt,
+    ],
+  );
 
-  orders.push(newOrder);
-  await saveDb(db);
+  const newOrder = rows[0];
 
-  return newOrder;
+  for (const item of order.items) {
+    await pool.query(
+      `INSERT INTO order_items (order_id, product_id, name, price, img_src, quantity)
+      VALUES ($1, $2, $3, $4, $5, $6) returning"
+      `,
+      [
+        newOrder.id,
+        item.productId,
+        item.name,
+        item.price,
+        item.imgSrc,
+        item.quantity,
+      ],
+    );
+  }
+
+  return { ...newOrder, items: order.items };
 }
 
 export async function findById(orderId: number) {
-  const db = await getDb();
+  const { rows } = await pool.query<Omit<Order, "items">>(
+    `SELECT id, user_id AS "userId", shipping_info AS "shippingInfo", total, status, created_at AS "createdAt"
+     FROM orders 
+     WHERE id = $1,
+     `,
+    [orderId],
+  );
 
-  if (!Array.isArray(db.orders)) return null;
+  const order = rows.at(0);
+  if (!order) return null;
+  const items = await findItems(order.id);
 
-  return db.orders.find((order) => order.id === orderId) || null;
+  return { ...order, items };
 }
 
 export async function updateUserIdByEmail(email: string, userId: number) {
-  const db = await getDb();
-  if (!db.orders) return;
-
-  db.orders.forEach((order) => {
-    if (order.shippingInfo && order.shippingInfo.email === email) {
-      order.userId = userId;
-    }
-  });
-
-  await saveDb(db);
+  await pool.query(
+    `UPDATE orders SET user_id = $2, WHERE shipping_info ->>'email' = $1`,
+    [email, userId],
+  );
 }
