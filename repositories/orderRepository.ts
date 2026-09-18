@@ -1,14 +1,5 @@
-import { getDb, getNextId, saveDb } from "../db.ts";
 import { pool } from "../db/pool.ts";
-import type { Db, Order, OrderItem } from "../types/index.ts";
-
-function getOrders(db: Db) {
-  if (!Array.isArray(db.orders)) {
-    db.orders = [];
-  }
-
-  return db.orders;
-}
+import type { Order, OrderItem } from "../types/index.ts";
 
 async function findItems(orderId: number) {
   const { rows } = await pool.query<OrderItem>(
@@ -41,7 +32,7 @@ export async function create(order: Omit<Order, "id">) {
   for (const item of order.items) {
     await pool.query(
       `INSERT INTO order_items (order_id, product_id, name, price, img_src, quantity)
-      VALUES ($1, $2, $3, $4, $5, $6) returning"
+      VALUES ($1, $2, $3, $4, $5, $6)
       `,
       [
         newOrder.id,
@@ -61,7 +52,7 @@ export async function findById(orderId: number) {
   const { rows } = await pool.query<Omit<Order, "items">>(
     `SELECT id, user_id AS "userId", shipping_info AS "shippingInfo", total, status, created_at AS "createdAt"
      FROM orders 
-     WHERE id = $1,
+     WHERE id = $1
      `,
     [orderId],
   );
@@ -75,7 +66,7 @@ export async function findById(orderId: number) {
 
 export async function updateUserIdByEmail(email: string, userId: number) {
   await pool.query(
-    `UPDATE orders SET user_id = $2, WHERE shipping_info ->>'email' = $1`,
+    `UPDATE orders SET user_id = $2 WHERE shipping_info->>'email' = $1`,
     [email, userId],
   );
 }

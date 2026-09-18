@@ -14,6 +14,7 @@ export async function renderCheckout(req: Request, res: Response) {
 export async function placeOrder(req: Request, res: Response) {
   const shippingInfo = req.body;
   const cartId = req.cartId;
+  console.log(req.user);
 
   if (!cartId) {
     throw new AppError("No puedes crear una orden con el carrito vacío", 400);
