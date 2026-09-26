@@ -29,6 +29,10 @@ export async function create(order: Omit<Order, "id">) {
 
   const newOrder = rows[0];
 
+  if (!newOrder) {
+    throw new Error("No se pudo crear la orden");
+  }
+
   for (const item of order.items) {
     await pool.query(
       `INSERT INTO order_items (order_id, product_id, name, price, img_src, quantity)

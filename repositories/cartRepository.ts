@@ -52,13 +52,20 @@ export async function destroy(cartId: number) {
 export async function create(userId: number | null) {
   const { rows } = await pool.query<CartWithoutItems>(
     `INSERT INTO carts (user_id)
-     VALUES ($1) 
+     VALUES ($1)
      RETURNING id, user_id as "userId"
     `,
     [userId],
   );
 
-  return { ...rows[0], items: [] };
+  const newCart = rows[0];
+
+  if (!newCart) {
+    throw new Error("No se pudo crear el carrito");
+  }
+
+  const items: CartItem[] = [];
+  return { ...newCart, items };
 }
 
 export async function update(updatedCart: Cart) {

@@ -20,7 +20,11 @@ export async function placeOrder(req: Request, res: Response) {
     throw new AppError("No puedes crear una orden con el carrito vacío", 400);
   }
 
-  const newOrder = await orderService.processCheckout(shippingInfo, cartId);
+  const newOrder = await orderService.processCheckout(
+    shippingInfo,
+    cartId,
+    req.user?.id,
+  );
 
   res.redirect(`/checkout/order-confirmation?orderId=${newOrder.id}`);
 }

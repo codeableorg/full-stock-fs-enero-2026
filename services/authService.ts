@@ -23,6 +23,10 @@ export async function signup(
     password: hashedPassword,
   });
 
+  if (!user) {
+    throw new AppError("No se pudo crear el usuario", 500);
+  }
+
   await orderService.linkPastOrdersToUser(email, user.id);
 
   return user;

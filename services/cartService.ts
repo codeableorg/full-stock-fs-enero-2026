@@ -1,4 +1,3 @@
-import crypto from "node:crypto";
 import * as cartRepository from "../repositories/cartRepository.ts";
 import * as productRepository from "../repositories/productRepository.ts";
 import { AppError } from "../utils/errorUtils.ts";
@@ -162,8 +161,11 @@ export async function updateItem(
 
   if (itemIndex === -1) return;
 
-  const quantityChange = action === "increase" ? 1 : -1;
   const item = items[itemIndex];
+
+  if (!item) return;
+
+  const quantityChange = action === "increase" ? 1 : -1;
   const nextQuantity = item.quantity + quantityChange;
 
   if (nextQuantity <= 0) {
