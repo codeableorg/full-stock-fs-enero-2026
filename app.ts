@@ -7,11 +7,14 @@ import { notFoundHandler } from "./controllers/notFoundController.ts";
 import router from "./routes/router.ts";
 import { cartContext } from "./middlewares/cartContext.ts";
 import { authContext } from "./middlewares/authContext.ts";
+import cors from "cors";
+import apiRouter from "./routes/api/router.ts";
 const app = express();
 const PORT = 3000;
 
 const COOKIE_SECRET = process.env.COOKIE_SECRET || "full-stock-cookie-secret";
 
+app.use(cors());
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 
@@ -25,6 +28,8 @@ app.use(authContext);
 app.use(cartContext);
 
 app.use(router);
+//localhost:3000/api/category
+app.use("/api", apiRouter);
 
 app.use(notFoundHandler);
 
