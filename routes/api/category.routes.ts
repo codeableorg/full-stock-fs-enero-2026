@@ -1,12 +1,8 @@
 import { Router } from "express";
-import { pool } from "../../db/pool.ts";
+import * as categoryController from "../../controllers/categoryController.ts";
 
 const categoryRouter = Router();
 
-categoryRouter.get("/", async (_req, res) => {
-  const result = await pool.query("SELECT * FROM categories");
-
-  res.json(result.rows);
-});
+categoryRouter.get("/", categoryController.getAll);
 
 export default categoryRouter;

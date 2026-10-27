@@ -4,6 +4,12 @@ import { parsePriceToCents } from "../utils/handlerUtils.ts";
 import { AppError } from "../utils/errorUtils.ts";
 import * as productService from "../services/productService.ts";
 
+export async function getAll(_req: Request, res: Response) {
+  const categories = await categoryService.getAll();
+
+  res.json({ data: categories });
+}
+
 export async function renderCategory(
   req: Request<{ slug: string }>,
   res: Response,
