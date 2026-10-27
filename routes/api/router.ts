@@ -3,6 +3,6 @@ import categoryRouter from "./category.routes.ts";
 
 const apiRouter = Router();
 
-apiRouter.use("/category", categoryRouter);
+apiRouter.use("/categories", categoryRouter);
 
 export default apiRouter;
