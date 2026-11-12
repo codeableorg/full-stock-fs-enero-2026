@@ -10,6 +10,17 @@ export async function getAll(_req: Request, res: Response) {
   res.json({ data: categories });
 }
 
+export async function getOneBySlug(
+  req: Request<{ slug: string }>,
+  res: Response,
+) {
+  const { slug } = req.params;
+
+  const category = await categoryService.getCategoryBySlug(slug);
+
+  res.json(category);
+}
+
 export async function renderCategory(
   req: Request<{ slug: string }>,
   res: Response,
