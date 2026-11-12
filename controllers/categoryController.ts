@@ -30,7 +30,7 @@ export async function getProductsBySlug(
   const category = await categoryService.getCategoryBySlug(slug);
   const products = await productService.getProductsByCategory(category!.id);
 
-  res.json({ data: { category, products } });
+  res.json({ data: products });
 }
 
 export async function renderCategory(
