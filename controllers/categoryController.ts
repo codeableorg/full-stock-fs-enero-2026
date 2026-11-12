@@ -21,6 +21,18 @@ export async function getOneBySlug(
   res.json(category);
 }
 
+export async function getProductsBySlug(
+  req: Request<{ slug: string }>,
+  res: Response,
+) {
+  const { slug } = req.params;
+
+  const category = await categoryService.getCategoryBySlug(slug);
+  const products = await productService.getProductsByCategory(category!.id);
+
+  res.json({ category, products });
+}
+
 export async function renderCategory(
   req: Request<{ slug: string }>,
   res: Response,
