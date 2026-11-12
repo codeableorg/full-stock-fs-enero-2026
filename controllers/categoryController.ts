@@ -18,7 +18,7 @@ export async function getOneBySlug(
 
   const category = await categoryService.getCategoryBySlug(slug);
 
-  res.json(category);
+  res.json({ data: category });
 }
 
 export async function getProductsBySlug(
@@ -30,7 +30,7 @@ export async function getProductsBySlug(
   const category = await categoryService.getCategoryBySlug(slug);
   const products = await productService.getProductsByCategory(category!.id);
 
-  res.json({ category, products });
+  res.json({ data: { category, products } });
 }
 
 export async function renderCategory(
