@@ -10,9 +10,37 @@ export function mountThemeToggler(parent) {
   button.className = "button button--ghost button--xl-icon";
 
   const icon = document.createElement("img");
-  icon.src = "/images/icons/moon.svg";
   icon.alt = "";
 
   button.append(icon);
+
+  function updateIconTheme() {
+    const html = document.documentElement;
+    const isDark = html.classList.contains("dark");
+
+    icon.src = isDark ? "/images/icons/sun.svg" : "/images/icons/moon.svg";
+
+    icon.alt = isDark ? "Ícono de sol" : "Ícono de luna";
+
+    button.setAttribute(
+      "aria-label",
+      isDark ? "Cambiar a modo claro" : "Cambiar a modo oscuro",
+    );
+  }
+
+  button.addEventListener("click", () => {
+    const html = document.documentElement;
+    const isDark = html.classList.contains("dark");
+    const newTheme = isDark ? "light" : "dark";
+
+    html.classList.remove("light", "dark");
+    html.classList.add(newTheme);
+
+    localStorage.setItem("theme", newTheme);
+
+    updateIconTheme();
+  });
+
+  updateIconTheme();
   parent.prepend(button);
 }
