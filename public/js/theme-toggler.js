@@ -41,6 +41,20 @@ export function mountThemeToggler(parent) {
     updateIconTheme();
   });
 
+  const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+  mediaQuery.addEventListener("change", (event) => {
+    const theme = localStorage.getItem("theme");
+
+    if (!theme) {
+      const newSystemTheme = event.matches ? "dark" : "light";
+      const html = document.documentElement;
+      html.classList.remove("light", "dark");
+      html.classList.add(newSystemTheme);
+      updateIconTheme();
+    }
+  });
+
   updateIconTheme();
   parent.prepend(button);
 }
